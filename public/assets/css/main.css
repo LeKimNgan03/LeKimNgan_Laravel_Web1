@@ -1,0 +1,11 @@
+/* Header */
+.navbar-nav li a {
+    font-size: 24px;
+}
+
+/* Slider */
+.carousel-item {
+    height: 800px;
+    background-size: cover;
+    background-position: center;
+}
