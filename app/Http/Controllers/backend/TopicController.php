@@ -25,7 +25,8 @@ class TopicController extends Controller
      */
     public function create()
     {
-        //
+        $list = Topic::where('status', '!=', 0)->orderBy("created_at", "desc")->get();
+        return view("backend.topic.create", compact('list'));
     }
 
     /**
@@ -35,12 +36,13 @@ class TopicController extends Controller
     {
         $topic = new Topic();
         $topic->name = $request->name; //form
-        $topic->slug = Str::of($request->slug)->slug('-'); //form
+        $topic->slug = Str::of($request->name)->slug('-'); //form
         $topic->description = $request->description; //form
         $topic->created_at = date('Y-m-d H:i:s');
         $topic->created_by = Auth::id() ?? 1;
         $topic->status = $request->status; //form
         $topic->save(); //Lưu
+        toastr()->success('Bạn thêm dữ liệu thành công!');
         return redirect()->route('admin.topic.index');
     }
 
@@ -57,7 +59,12 @@ class TopicController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $topic = Topic::find($id);
+        if ($topic == null) {
+            // Chuyển hướng trang và báo lỗi
+        }
+        $list = Topic::where('status', '!=', 0)->orderBy("created_at", "desc")->get();
+        return view("backend.topic.edit", compact('topic'));
     }
 
     /**
@@ -65,7 +72,19 @@ class TopicController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $topic = Topic::find($id);
+        if ($topic == null) {
+            // Chuyển hướng trang và báo lỗi
+        }
+        $topic->name = $request->name; //form
+        $topic->slug = Str::of($request->name)->slug('-'); //form
+        $topic->description = $request->description; //form
+        $topic->created_at = date('Y-m-d H:i:s');
+        $topic->created_by = Auth::id() ?? 1;
+        $topic->status = $request->status; //form
+        $topic->save(); //Lưu
+        toastr()->success('Bạn chỉnh sửa dữ liệu thành công!');
+        return redirect()->route('admin.topic.index');
     }
 
     /**

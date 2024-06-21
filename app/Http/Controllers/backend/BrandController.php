@@ -39,14 +39,22 @@ class BrandController extends Controller
     {
         $brand = new Brand();
         $brand->name = $request->name; //form
-        $brand->slug = Str::of($request->slug)->slug('-'); //form
-        // $brand->image = $request->image;
+        $brand->slug = Str::of($request->name)->slug('-'); //form
         $brand->sort_order = $request->sort_order; //form
         $brand->description = $request->description; //form
         $brand->created_at = date('Y-m-d H:i:s');
         $brand->created_by = Auth::id() ?? 1;
         $brand->status = $request->status; //form
+        // Upload Image
+        if ($request->image) {
+            if (in_array($request->image->extension(), ["jpg", "png", "jpeg", "gif"])) {
+                $fileName = $brand->slug . '.' . $request->image->extension();
+                $request->image->move(public_path("images/brand"), $fileName);
+                $brand->image = $fileName;
+            }
+        }
         $brand->save(); //Lưu
+        toastr()->success('Bạn thêm dữ liệu thành công!');
         return redirect()->route('admin.brand.index');
     }
 
@@ -63,7 +71,20 @@ class BrandController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $brand = Brand::find($id);
+        if ($brand == null) {
+            // Chuyển hướng trang và báo lỗi
+        }
+        $list = Brand::where('status', '!=', 0)->orderBy('created_at', 'desc')->get();
+        $htmlsortorder = "";
+        foreach ($list as $item) {
+            if ($brand->sort_order - 1 == $item->sort_order) {
+                $htmlsortorder .= "<option selected value='" . ($item->sort_order + 1) . "'>Sau " . $item->name . "</option>";
+            } else {
+                $htmlsortorder .= "<option value='" . ($item->sort_order + 1) . "'>Sau " . $item->name . "</option>";
+            }
+        }
+        return view("backend.brand.edit", compact("brand", "htmlsortorder"));
     }
 
     /**
@@ -71,7 +92,28 @@ class BrandController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $brand = Brand::find($id);
+        if ($brand == null) {
+            // Chuyển hướng trang và báo lỗi
+        }
+        $brand->name = $request->name; //form
+        $brand->slug = Str::of($request->name)->slug('-'); //form
+        $brand->sort_order = $request->sort_order; //form
+        $brand->description = $request->description; //form
+        $brand->created_at = date('Y-m-d H:i:s');
+        $brand->created_by = Auth::id() ?? 1;
+        $brand->status = $request->status; //form
+        // Upload Image
+        if ($request->image) {
+            if (in_array($request->image->extension(), ["jpg", "png", "jpeg", "gif"])) {
+                $fileName = $brand->slug . '.' . $request->image->extension();
+                $request->image->move(public_path("images/brand"), $fileName);
+                $brand->image = $fileName;
+            }
+        }
+        $brand->save(); //Lưu
+        toastr()->success('Bạn chỉnh sửa dữ liệu thành công!');
+        return redirect()->route('admin.brand.index');
     }
 
     /**

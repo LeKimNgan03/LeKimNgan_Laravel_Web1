@@ -1,6 +1,7 @@
 @extends('layout.admin')
 @section('title', 'Banner')
 @section('content')
+
 <!-- CONTENT -->
 <div class="content-wrapper">
     <section class="content-header">
@@ -9,15 +10,10 @@
                 <div class="col-sm-6">
                     <h1>Tất cả Banner</h1>
                 </div>
-                <!-- <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Blank Page</li>
-                    </ol>
-                </div> -->
             </div>
         </div>
     </section>
+
     <section class="content">
         <div class="card">
             <div class="card-header">
@@ -26,42 +22,46 @@
                         <a href="{{route('admin.banner.create')}}" class="btn btn-sm btn-success">
                             <i class="fa fa-plus" aria-hidden="true"></i> Thêm
                         </a>
-                        <a href="" class="btn btn-sm btn-danger">
+                        <a href="{{route('admin.banner.trash')}}" class="btn btn-sm btn-danger">
                             <i class="fa fa-trash" aria-hidden="true"></i> Thùng rác
                         </a>
                     </div>
                 </div>
             </div>
+
             <div class="card-body">
                 <table class="table table-bordered table-hover table-striped">
                     <thead>
                         <tr>
                             <th class="text-center" style="width:30px">#</th>
-                            <th class="text-center" style="width:90px">Hình</th>
+                            <th class="text-center" style="width:130px">Hình</th>
                             <th>Tên banner</th>
-                            <th>Liên kết</th>
-                            <th class="text-center" style="width:190px">Chức năng</th>
-                            <th class="text-center" style="width:30px">ID</th>
+                            <th>Vị trí</th>
+                            <th class="text-center" style="width:170px">Chức năng</th>
+                            <th class="text-center" style="width:40px">ID</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($list as $row)
                         <tr>
                             <td><input type="checkbox"></td>
-                            <td><img src="{{asset("public/images/" . $row->image)}}" alt="{{$row->image}}"></td>
+                            <td><img style="width: 250px" src="{{asset("images/banner/" . $row->image)}}" alt="{{$row->image}}"></td>
                             <td>{{$row->name}}</td>
-                            <td>{{$row->link}}</td>
+                            <td>{{$row->position}}</td>
                             <td>
-                                <a href="" class="btn btn-sm btn-success">
+                                @php
+                                $agrs = ['id' => $row->id];
+                                @endphp
+                                <a href="{{route('admin.banner.status', $agrs)}}" class="btn btn-sm btn-success">
                                     <i class="fa fa-toggle-on" aria-hidden="true"></i>
                                 </a>
-                                <a href="{{route('admin.banner.show', ['id' => $row->id])}}" class="btn btn-sm btn-info">
+                                <a href="{{route('admin.banner.show', $agrs)}}" class="btn btn-sm btn-info">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
-                                <a href="{{route('admin.banner.edit', ['id' => $row->id])}}" class="btn btn-sm btn-primary">
+                                <a href="{{route('admin.banner.edit', $agrs)}}" class="btn btn-sm btn-primary">
                                     <i class="fa fa-edit" aria-hidden="true"></i>
                                 </a>
-                                <a href="{{route('admin.banner.trash')}}" class="btn btn-sm btn-danger">
+                                <a href="{{route('admin.banner.delete', $agrs)}}" class="btn btn-sm btn-danger">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </a>
                             </td>
@@ -75,4 +75,5 @@
     </section>
 </div>
 <!-- /.CONTENT -->
+
 @endsection

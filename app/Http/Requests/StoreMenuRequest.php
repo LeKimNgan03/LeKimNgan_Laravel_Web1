@@ -22,8 +22,7 @@ class StoreMenuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:6',
-            'link' => 'required',
+            'name' => 'required|min:4',
         ];
     }
 
@@ -31,8 +30,7 @@ class StoreMenuRequest extends FormRequest
     {
         return [
             'name.required' => 'Tên menu không được để trống',
-            'name.min' => 'Tên menu ít nhất 6 kí tự',
-            'link.required' => 'Đường dẫn không được để trống',
+            'name.min' => 'Tên menu ít nhất 4 kí tự',
         ];
     }
 }

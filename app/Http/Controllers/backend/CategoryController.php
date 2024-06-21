@@ -41,15 +41,23 @@ class CategoryController extends Controller
     {
         $category = new Category();
         $category->name = $request->name; //form
-        $category->slug = Str::of($request->slug)->slug('-'); //form
-        // $category->image = $request->image;
+        $category->slug = Str::of($request->name)->slug('-'); //form
         $category->parent_id = $request->parent_id; //form
         $category->sort_order = $request->sort_order; //form
         $category->description = $request->description; //form
         $category->created_at = date('Y-m-d H:i:s');
         $category->created_by = Auth::id() ?? 1;
         $category->status = $request->status; //form
+        // Upload Image
+        if ($request->image) {
+            if (in_array($request->image->extension(), ["jpg", "png", "jpeg", "gif"])) {
+                $fileName = $category->slug . '.' . $request->image->extension();
+                $request->image->move(public_path("images/categories"), $fileName);
+                $category->image = $fileName;
+            }
+        }
         $category->save(); //Lưu
+        toastr()->success('Bạn thêm dữ liệu thành công!');
         return redirect()->route('admin.category.index');
     }
 
@@ -66,7 +74,26 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category = Category::find($id);
+        if ($category == null) {
+            // Chuyển hướng trang và báo lỗi
+        }
+        $list = Category::where('status', '!=', 0)->orderBy('created_at', 'desc')->get();
+        $htmlparentid = "";
+        $htmlsortorder = "";
+        foreach ($list as $item) {
+            if ($category->parent_id == $item->id) {
+                $htmlparentid .= "<option selected value='" . $item->id . "'>" . $item->name . "</option>";
+            } else {
+                $htmlparentid .= "<option value='" . $item->id . "'>" . $item->name . "</option>";
+            }
+            if ($category->sort_order - 1 == $item->sort_order) {
+                $htmlsortorder .= "<option selected value='" . ($item->sort_order + 1) . "'>Sau " . $item->name . "</option>";
+            } else {
+                $htmlsortorder .= "<option value='" . ($item->sort_order + 1) . "'>Sau " . $item->name . "</option>";
+            }
+        }
+        return view("backend.category.edit", compact("category", "htmlparentid", "htmlsortorder"));
     }
 
     /**
@@ -74,7 +101,29 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $category = Category::find($id);
+        if ($category == null) {
+            // Chuyển hướng trang và báo lỗi
+        }
+        $category->name = $request->name; //form
+        $category->slug = Str::of($request->name)->slug('-'); //form
+        $category->parent_id = $request->parent_id; //form
+        $category->sort_order = $request->sort_order; //form
+        $category->description = $request->description; //form
+        $category->created_at = date('Y-m-d H:i:s');
+        $category->created_by = Auth::id() ?? 1;
+        $category->status = $request->status; //form
+        // Upload Image
+        if ($request->image) {
+            if (in_array($request->image->extension(), ["jpg", "png", "jpeg", "gif"])) {
+                $fileName = $category->slug . '.' . $request->image->extension();
+                $request->image->move(public_path("images/categories"), $fileName);
+                $category->image = $fileName;
+            }
+        }
+        $category->save();
+        toastr()->success('Bạn chỉnh sửa dữ liệu thành công!');
+        return redirect()->route('admin.category.index');
     }
 
     /**

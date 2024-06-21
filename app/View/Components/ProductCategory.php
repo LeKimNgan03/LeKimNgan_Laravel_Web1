@@ -5,8 +5,9 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use App\Models\Category;
 
-class ProductCategory extends Component
+class ProductCategoryHome extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +22,9 @@ class ProductCategory extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.product-category');
+        $listcategory = Category::where('status', '=', 1)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('components.product-category', compact('listcategory'));
     }
 }

@@ -22,7 +22,7 @@ class StoreBrandRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:6',
+            'name' => 'required|min:4',
         ];
     }
 
@@ -30,7 +30,7 @@ class StoreBrandRequest extends FormRequest
     {
         return [
             'name.required' => 'Tên thương hiệu không được để trống',
-            'name.min' => 'Tên thương hiệu ít nhất 6 kí tự',
+            'name.min' => 'Tên thương hiệu ít nhất 4 kí tự',
         ];
     }
 }

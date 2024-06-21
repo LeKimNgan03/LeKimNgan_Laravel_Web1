@@ -17,11 +17,7 @@ class BannerController extends Controller
     public function index()
     {
         $list = Banner::where('status', '!=', 0)->orderBy('created_at', 'desc')->get();
-        $htmlsortorder = "";
-        foreach ($list as $item) {
-            $htmlsortorder .= "<option value='" . ($item->sort_order + 1) . "'>Sau " . $item->name . "</option>";
-        }
-        return view('backend.banner.index', compact("list", "htmlsortorder"));
+        return view('backend.banner.index', compact("list"));
     }
 
     /**
@@ -29,7 +25,14 @@ class BannerController extends Controller
      */
     public function create()
     {
-        //
+        $list = Banner::where('status', '!=', 0)->orderBy('created_at', 'desc')->get();
+        $htmlsortorder = "";
+        $htmlposition = "";
+        foreach ($list as $item) {
+            $htmlsortorder .= "<option value='" . ($item->sort_order + 1) . "'>Sau " . $item->name . "</option>";
+            $htmlposition .= "<option value='" . $item->id . "'>" . $item->position . "</option>";
+        }
+        return view('backend.banner.create', compact('list', 'htmlsortorder', 'htmlposition'));
     }
 
     /**
@@ -39,16 +42,24 @@ class BannerController extends Controller
     {
         $banner = new Banner();
         $banner->name = $request->name; //form
-        // $banner->slug = Str::of($request->slug)->slug('-'); //form
+        // $banner->slug = Str::of($request->name)->slug('-'); //form
         $banner->link = $request->link; //form
         $banner->sort_order = $request->sort_order; //form
         $banner->position = $request->position; //form
         $banner->description = $request->description; //form
-        // $banner->image = $request->image;
         $banner->created_at = date('Y-m-d H:i:s');
         $banner->created_by = Auth::id() ?? 1;
         $banner->status = $request->status; //form
+        // Upload Image
+        if ($request->image) {
+            if (in_array($request->image->extension(), ["jpg", "png", "jpeg", "gif"])) {
+                $fileName = $banner->name . '.' . $request->image->extension();
+                $request->image->move(public_path("images/banner"), $fileName);
+                $banner->image = $fileName;
+            }
+        }
         $banner->save(); //Lưu
+        toastr()->success('Bạn thêm dữ liệu thành công!');
         return redirect()->route('admin.banner.index');
     }
 
@@ -65,7 +76,27 @@ class BannerController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $banner = Banner::find($id);
+        if ($banner == null) {
+            // Chuyển hướng trang và báo lỗi
+        }
+        $list = Banner::where('status', '!=', 0)->orderBy('created_at', 'desc')->get();
+        $htmlsortorder = "";
+        $htmlposition = "";
+        foreach ($list as $item) {
+            if ($banner->parent_id == $item->id) {
+                $htmlposition .= "<option selected value='" . $item->id . "'>" . $item->position . "</option>";
+            } else {
+                $htmlposition .= "<option value='" . $item->id . "'>" . $item->position . "</option>";
+            }
+
+            if ($banner->sort_order - 1 == $item->sort_order) {
+                $htmlsortorder .= "<option selected value='" . ($item->sort_order + 1) . "'>Sau " . $item->name . "</option>";
+            } else {
+                $htmlsortorder .= "<option value='" . ($item->sort_order + 1) . "'>Sau " . $item->name . "</option>";
+            }
+        }
+        return view("backend.banner.edit", compact("banner", "htmlsortorder", 'htmlposition'));
     }
 
     /**
@@ -73,7 +104,30 @@ class BannerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $banner = Banner::find($id);
+        if ($banner == null) {
+            // Chuyển hướng trang và báo lỗi
+        }
+        $banner->name = $request->name; //form
+        // $banner->slug = Str::of($request->name)->slug('-'); //form
+        $banner->link = $request->link; //form
+        $banner->sort_order = $request->sort_order; //form
+        $banner->position = $request->position; //form
+        $banner->description = $request->description; //form
+        $banner->created_at = date('Y-m-d H:i:s');
+        $banner->created_by = Auth::id() ?? 1;
+        $banner->status = $request->status; //form
+        // Upload Image
+        if ($request->image) {
+            if (in_array($request->image->extension(), ["jpg", "png", "jpeg", "gif"])) {
+                $fileName = $banner->name . '.' . $request->image->extension();
+                $request->image->move(public_path("images/banner"), $fileName);
+                $banner->image = $fileName;
+            }
+        }
+        $banner->save(); //Lưu
+        toastr()->success('Bạn chỉnh sửa dữ liệu thành công!');
+        return redirect()->route('admin.banner.index');
     }
 
     /**

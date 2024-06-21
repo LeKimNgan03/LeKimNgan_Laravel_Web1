@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -22,7 +23,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $list = User::where('status', '!=', 0)->orderBy('created_at', 'desc')->get();
+        return view('backend.user.create', compact("list"));
     }
 
     /**
@@ -30,7 +32,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone =  $request->phone;
+        $user->username = $request->username;
+        $user->password = $request->password;
+        $user->address = $request->address;
+        $user->roles = $request->roles;
+        $user->created_at = date('Y-m-d H:i:s');
+        $user->created_by = Auth::id() ?? 1;
+        $user->status = $request->status;
+        // Upload Image
+        if ($request->image) {
+            if (in_array($request->image->extension(), ["jpg", "png", "jpeg", "gif"])) {
+                $fileName = $user->name . '.' . $request->image->extension();
+                $request->image->move(public_path("images/user"), $fileName);
+                $user->image = $fileName;
+            }
+        }
+        $user->save();
+        toastr()->success('Bạn thêm dữ liệu thành công!');
+        return redirect()->route('admin.user.index');
     }
 
     /**

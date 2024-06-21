@@ -8,12 +8,13 @@ use Illuminate\View\Component;
 
 class ProductCard extends Component
 {
+    public $product_item = null;
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($product)
     {
-        //
+        $this->product_item = $product;
     }
 
     /**
@@ -21,6 +22,7 @@ class ProductCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.product-card');
+        $productitem = $this->product_item;
+        return view('components.product-card', ["product" => $productitem]);
     }
 }

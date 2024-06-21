@@ -23,7 +23,6 @@ class StoreBannerRequest extends FormRequest
     {
         return [
             'name' => 'required|min:6',
-            'link' => 'required',
         ];
     }
 
@@ -32,7 +31,6 @@ class StoreBannerRequest extends FormRequest
         return [
             'name.required' => 'Tên banner không được để trống',
             'name.min' => 'Tên banner ít nhất 6 kí tự',
-            'link.required' => 'Đường dẫn không được để trống',
         ];
     }
 }

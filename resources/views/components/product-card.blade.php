@@ -1,8 +1,12 @@
-<div class="col-md-3 card mb-3">
-    <img class="card-img-top" src="./assets/img/perfume-1.png" alt="Product 1">
-    <div class="card-body">
-        <h5 class="card-title text-center">Product 1</h5>
-        <p class="card-text text-danger">$99.99</p>
-        <a href="chi-tiet-san-pham" class="btn btn-light">Details</a>
+<div class="col-md-3 mb-4">
+    <div class="card h-100">
+        <img src="{{asset('images/product/' . $product->image)}}" class="card-img-top">
+        <div class="card-body">
+            <h5 class="card-title">{{$product->name}}</h5>
+            <p class="card-text">{{$product->price}}</p>
+            <a href="#" class="btn btn-primary w-100">
+                <i class="fa-solid fa-cart-plus"></i>
+            </a>
+        </div>
     </div>
 </div>

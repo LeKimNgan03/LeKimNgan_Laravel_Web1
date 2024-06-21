@@ -25,7 +25,14 @@ class MenuController extends Controller
      */
     public function create()
     {
-        //
+        $list = Menu::where('status', '!=', 0)->orderBy('created_at', 'desc')->get();
+        $htmlparentid = "";
+        $htmlsortorder = "";
+        foreach ($list as $item) {
+            $htmlparentid .= "<option value='" . $item->id . "'>" . $item->name . "</option>";
+            $htmlsortorder .= "<option value='" . $item->sort_order . "'>" . $item->name . "</option>";
+        }
+        return view('backend.menu.create', compact('list', 'htmlparentid', 'htmlsortorder'));
     }
 
     /**
@@ -36,13 +43,17 @@ class MenuController extends Controller
         $menu = new Menu();
         $menu->name = $request->name; //form
         $menu->link = $request->link; //form
-        // $menu->slug = Str::of($request->slug)->slug('-'); //form
+        // $menu->slug = Str::of($request->name)->slug('-'); //form
+        $menu->parent_id = $request->parent_id; //form
         $menu->table_id = $request->table_id;
+        $menu->sort_order = $request->sort_order; //form
+        $menu->position = $request->position; //form
         $menu->type = $request->type; //form
         $menu->created_at = date('Y-m-d H:i:s');
         $menu->created_by = Auth::id() ?? 1;
         $menu->status = $request->status; //form
         $menu->save(); //Lưu
+        toastr()->success('Bạn thêm dữ liệu thành công!');
         return redirect()->route('admin.menu.index');
     }
 
@@ -59,7 +70,26 @@ class MenuController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $menu = Menu::find($id);
+        if ($menu == null) {
+            // Chuyển hướng trang và báo lỗi
+        }
+        $list = Menu::where('status', '!=', 0)->orderBy('created_at', 'desc')->get();
+        $htmlparentid = "";
+        $htmlsortorder = "";
+        foreach ($list as $item) {
+            if ($menu->parent_id == $item->id) {
+                $htmlparentid .= "<option selected value='" . $item->id . "'>" . $item->name . "</option>";
+            } else {
+                $htmlparentid .= "<option value='" . $item->id . "'>" . $item->name . "</option>";
+            }
+            if ($menu->sort_order - 1 == $item->sort_order) {
+                $htmlsortorder .= "<option selected value='" . ($item->sort_order + 1) . "'>Sau " . $item->name . "</option>";
+            } else {
+                $htmlsortorder .= "<option value='" . ($item->sort_order + 1) . "'>Sau " . $item->name . "</option>";
+            }
+        }
+        return view('backend.menu.edit', compact('menu', 'htmlparentid', 'htmlsortorder'));
     }
 
     /**
@@ -67,7 +97,24 @@ class MenuController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $menu = Menu::find($id);
+        if ($menu == null) {
+            // Chuyển hướng trang và báo lỗi
+        }
+        $menu->name = $request->name; //form
+        $menu->link = $request->link; //form
+        // $menu->slug = Str::of($request->name)->slug('-'); //form
+        $menu->parent_id = $request->parent_id; //form
+        $menu->table_id = $request->table_id;
+        $menu->sort_order = $request->sort_order; //form
+        $menu->position = $request->position; //form
+        $menu->type = $request->type; //form
+        $menu->created_at = date('Y-m-d H:i:s');
+        $menu->created_by = Auth::id() ?? 1;
+        $menu->status = $request->status; //form
+        $menu->save(); //Lưu
+        toastr()->success('Bạn chỉnh sửa dữ liệu thành công!');
+        return redirect()->route('admin.menu.index');
     }
 
     /**
