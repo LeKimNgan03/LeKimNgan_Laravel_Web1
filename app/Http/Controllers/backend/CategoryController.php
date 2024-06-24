@@ -61,12 +61,25 @@ class CategoryController extends Controller
         return redirect()->route('admin.category.index');
     }
 
+    public function trash()
+    {
+        $list = Category::where('status', '!=', 0)
+        ->orderBy('created_at', 'desc')
+        ->select("id", "image", "name", "slug", "sort_order", "status")
+        ->get();
+        return view('backend.category.trash', compact("list"));
+    }
+    
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        $category = Category::find($id);
+        if ($category == null) {
+            return redirect()->route('admin.category.index');
+        }
+        return view('backend.category.show', compact("category"));
     }
 
     /**
@@ -131,6 +144,50 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $category = Category::find($id);
+        if ($category == null) {
+            return redirect()->route('admin.category.index');
+        }
+        $category->delete();
+        return redirect()->route('admin.category.trash');
+    }
+
+    public function delete(string $id)
+    {
+        $category = Category::find($id);
+        if ($category == null) {
+            return redirect()->route('admin.category.index');
+        }
+        $category->created_at = date('Y-m-d H:i:s');
+        $category->created_by = Auth::id() ?? 1;
+        $category->status = 0; //form
+        $category->save();
+        return redirect()->route('admin.category.index');
+    }
+
+    public function restore(string $id)
+    {
+        $category = Category::find($id);
+        if ($category == null) {
+            return redirect()->route('admin.category.index');
+        }
+        $category->created_at = date('Y-m-d H:i:s');
+        $category->created_by = Auth::id() ?? 1;
+        $category->status = 2; //form
+        $category->save();
+        return redirect()->route('admin.category.index');
+    }
+
+    public function status(string $id)
+    {
+        $category = Category::find($id);
+        if ($category == null) {
+            return redirect()->route('admin.category.index');
+        }
+        $category->created_at = date('Y-m-d H:i:s');
+        $category->created_by = Auth::id() ?? 1;
+        $category->status = ($category->status == 1) ? 2 : 1; //form
+        $category->save();
+        return redirect()->route('admin.category.index');
     }
 }

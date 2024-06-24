@@ -1,8 +1,9 @@
 @extends('layout.admin')
 @section('title', 'Dashboard')
 @section('content')
+
+<!-- CONTENT -->
 <div class="content-wrapper">
-    <!-- CONTENT -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -12,6 +13,7 @@
             </div>
         </div>
     </section>
+
     <section class="content">
         <div class="card">
             <div class="card-header">
@@ -26,7 +28,7 @@
             </div>
         </div>
     </section>
-    <!-- /.CONTENT -->
 </div>
+<!-- /.CONTENT -->
 
 @endsection

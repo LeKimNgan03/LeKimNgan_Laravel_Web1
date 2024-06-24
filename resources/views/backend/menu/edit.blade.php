@@ -20,14 +20,14 @@
         <section class="content">
             <div class="card">
                 <div class="card-header text-right">
+                    <button type="submit" class="btn btn-sm btn-success" name="CHANGEADD">
+                        <i class="fa fa-save" aria-hidden="true"></i>
+                        Cập nhật
+                    </button>
                     <a href="{{route('admin.menu.index')}}" class="btn btn-sm btn-info">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
                         Về danh sách
                     </a>
-                    <button type="submit" class="btn btn-sm btn-success" name="CHANGEADD">
-                        <i class="fa fa-save" aria-hidden="true"></i>
-                        Lưu
-                    </button>
                 </div>
 
                 <div class="card-body">
@@ -54,8 +54,6 @@
                             <div class="mb-3">
                                 <label>Vị trí</label>
                                 <input type="text" name="position" id="position" placeholder="Nhập vị trí" class="form-control" value="{{old('position',$menu->position)}}">
-                                <!-- csdl -->
-                                </select>
                             </div>
                         </div>
 

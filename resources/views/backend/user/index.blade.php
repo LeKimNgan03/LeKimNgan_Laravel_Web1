@@ -1,6 +1,7 @@
 @extends('layout.admin')
-@section('title', 'Tất cả người dùng')
+@section('title', 'Người dùng')
 @section('content')
+
 <!-- CONTENT -->
 <div class="content-wrapper">
     <section class="content-header">
@@ -9,15 +10,10 @@
                 <div class="col-sm-6">
                     <h1>Tất cả người dùng</h1>
                 </div>
-                <!-- <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Blank Page</li>
-                    </ol>
-                </div> -->
             </div>
         </div>
     </section>
+
     <section class="content">
         <div class="card">
             <div class="card-header">
@@ -26,14 +22,15 @@
                         <a href="{{route('admin.user.create')}}" class="btn btn-sm btn-success">
                             <i class="fa fa-plus" aria-hidden="true"></i> Thêm
                         </a>
-                        <a href="" class="btn btn-sm btn-danger">
+                        <a href="{{route('admin.user.trash')}}" class="btn btn-sm btn-danger">
                             <i class="fa fa-trash" aria-hidden="true"></i> Thùng rác
                         </a>
                     </div>
                 </div>
             </div>
+
             <div class="card-body">
-                <table class="table table-bordered table-hover table-striped">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th class="text-center" style="width:30px">#</th>
@@ -45,6 +42,7 @@
                             <th class="text-center" style="width:30px">ID</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         @foreach ($list as $row)
                         <tr>
@@ -77,4 +75,5 @@
     </section>
 </div>
 <!-- /.CONTENT -->
+
 @endsection

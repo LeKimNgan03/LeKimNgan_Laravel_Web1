@@ -5,4 +5,9 @@
         <x-product-card :product="$product" />
         @endforeach
     </div>
+    <div class="text-center">
+        <button class="btn btn-light" type="button">
+            <a href="{{ route('site.product') }}" class="text-dark">Xem thêm</a>
+        </button>
+    </div>
 </div>

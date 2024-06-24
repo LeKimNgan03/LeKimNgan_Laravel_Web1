@@ -6,6 +6,7 @@ use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\ProductController as SanphamController;
 use App\Http\Controllers\frontend\ContactController as LienheController;
 use App\Http\Controllers\frontend\BlogController;
+// use App\Http\Controllers\frontend\CartController;
 // Backend
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\BannerController;
@@ -33,9 +34,16 @@ use App\Http\Controllers\backend\UserController;
 // Frontend
 Route::get("/", [HomeController::class, "index"])->name('site.home');
 Route::get("san-pham", [SanphamController::class, "index"])->name('site.product');
+Route::get("danh-muc/{slug}", [SanphamController::class, "category"])->name('site.product.category');
+Route::get("thuong-hieu/{slug}", [SanphamController::class, "brand"])->name('site.product.brand');
 Route::get("chi-tiet-san-pham/{slug}", [SanphamController::class, "product_detail"])->name('site.product.detail');
 Route::get("lien-he", [LienheController::class, "index"])->name('site.contact');
 Route::get("bai-viet", [BlogController::class, "index"])->name('site.blog');
+
+// Route::get("gio-hang", [CartController::class, "index"])->name('site.cart.index');
+// Route::get("cart/addcart", [CartController::class, "addcart"])->name('site.cart.addcart');
+// Route::get("cart/update", [CartController::class, "update"])->name('site.cart.update');
+// Route::get("cart/delete/{id}", [CartController::class, "delete"])->name('site.cart.delete');
 
 // Backend
 Route::prefix('admin')->group(function () {

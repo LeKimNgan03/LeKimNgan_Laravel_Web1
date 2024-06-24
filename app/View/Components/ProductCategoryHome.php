@@ -22,9 +22,14 @@ class ProductCategoryHome extends Component
      */
     public function render(): View|Closure|string
     {
-        $listcategory = Category::where('status', '=', 1)
-            ->orderBy('created_at', 'desc')
+        $args = [
+            ['status', '=', 1],
+            ['parent_id', '=', 0],
+        ];
+        $category_list = Category::where($args)
+            ->orderBy('sort_order', 'asc')
+            ->limit(4)
             ->get();
-        return view('components.product-category', compact('listcategory'));
+        return view('components.product-category-home', compact('category_list'));
     }
 }

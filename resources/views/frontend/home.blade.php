@@ -5,6 +5,6 @@
 <x-slider />
 <x-flash-sale />
 <x-product-new />
-<x-product-category />
+<x-product-category-home />
 <x-last-post />
 @endsection

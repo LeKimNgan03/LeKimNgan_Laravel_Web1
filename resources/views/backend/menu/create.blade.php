@@ -52,8 +52,6 @@
                             <div class="mb-3">
                                 <label>Vị trí</label>
                                 <input type="text" name="position" id="position" placeholder="Nhập vị trí" class="form-control" value="{{old('position')}}">
-                                <!-- csdl -->
-                                </select>
                             </div>
                         </div>
 

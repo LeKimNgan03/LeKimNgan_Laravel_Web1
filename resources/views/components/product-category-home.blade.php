@@ -1,16 +1,13 @@
-<div class="container">
-    <div id="category">
-        <ul class="navbar-nav me-auto mt-4">
-            @foreach ($listcategory as $row)
-            <li class="nav-item me-4">
-                <a href="#">
-                    <ul>
-                        <img class="ml-4" src="{{asset('images/categories/' . $row->image)}}" alt="{{$row->image}}">
-                    </ul>
-                    <ul class="text-center ">{{$row->name}}</ul>
-                </a>
-            </li>
-            @endforeach
-        </ul>
+@foreach($category_list as $cat_row)
+    <div class="container my-5">
+        <h2 class="text-center">{{$cat_row->name}}</h2>
+        <div class="row">
+            <x-product-category :catrow="$cat_row" />
+        </div>
+        <div class="text-center">
+            <button class="btn btn-light" type="button">
+                <a href="{{ route('site.product.category', ['slug' => $cat_row->slug]) }}" class="text-dark">Xem thêm</a>
+            </button>
+        </div>
     </div>
-</div>
+@endforeach
