@@ -4,7 +4,7 @@
 
 <!-- CONTENT -->
 <div class="content-wrapper">
-    <form action="#" method="post" enctype="multipart/form-data">
+    <form action="{{route('admin.user.store')}}" method="post" enctype="multipart/form-data">
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -23,7 +23,7 @@
                             <button type="submit" name="create" class="btn btn-sm btn-success">
                                 <i class="fa fa-save"></i> Thêm thành viên
                             </button>
-                            <a class="btn btn-sm btn-info" href="product_index.html">
+                            <a class="btn btn-sm btn-info" href="{{route('admin.user.index')}}">
                                 <i class="fa fa-arrow-left"></i> Về danh sách
                             </a>
                         </div>
@@ -33,6 +33,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
+                            @csrf
                             <!-- Name -->
                             <div class="mb-3">
                                 <label for="name">Họ tên</label>
@@ -80,10 +81,16 @@
                                 <input type="password" value="" name="password" id="password" class="form-control">
                             </div>
 
-                            <!-- Password -->
+                            <!-- Re-Password -->
                             <div class="mb-3">
                                 <label for="password_re">Xác nhận mật khẩu</label>
                                 <input type="password" value="" name="password_re" id="password_re" class="form-control">
+                            </div>
+
+                            <!-- Image -->
+                            <div class="mb-3">
+                                <label for="image">Hình ảnh</label>
+                                <input type="file" name="image" id="image" class="form-control">
                             </div>
 
                             <!--  -->

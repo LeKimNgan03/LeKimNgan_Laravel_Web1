@@ -7,7 +7,9 @@
     </div>
     <div class="text-center">
         <button class="btn btn-light" type="button">
-            <a href="{{ route('site.product') }}" class="text-dark">Xem thêm</a>
+            <a href="{{ route('site.product') }}" class="text-dark text-decoration-none">
+                Xem thêm
+            </a>
         </button>
     </div>
 </div>

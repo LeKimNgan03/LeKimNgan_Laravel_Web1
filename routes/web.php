@@ -6,7 +6,7 @@ use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\ProductController as SanphamController;
 use App\Http\Controllers\frontend\ContactController as LienheController;
 use App\Http\Controllers\frontend\BlogController;
-// use App\Http\Controllers\frontend\CartController;
+use App\Http\Controllers\frontend\CartController;
 // Backend
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\BannerController;
@@ -14,11 +14,13 @@ use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\CategoryController;
 use App\Http\Controllers\backend\ContactController;
 use App\Http\Controllers\backend\MenuController;
-// use App\Http\Controllers\backend\OrderController;
+use App\Http\Controllers\backend\OrderController;
 use App\Http\Controllers\backend\PostController;
 use App\Http\Controllers\backend\ProductController;
 use App\Http\Controllers\backend\TopicController;
 use App\Http\Controllers\backend\UserController;
+
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,13 +42,17 @@ Route::get("chi-tiet-san-pham/{slug}", [SanphamController::class, "product_detai
 Route::get("lien-he", [LienheController::class, "index"])->name('site.contact');
 Route::get("bai-viet", [BlogController::class, "index"])->name('site.blog');
 
-// Route::get("gio-hang", [CartController::class, "index"])->name('site.cart.index');
-// Route::get("cart/addcart", [CartController::class, "addcart"])->name('site.cart.addcart');
-// Route::get("cart/update", [CartController::class, "update"])->name('site.cart.update');
-// Route::get("cart/delete/{id}", [CartController::class, "delete"])->name('site.cart.delete');
+Route::get("gio-hang", [CartController::class, "index"])->name('site.cart.index');
+Route::get("cart/addcart", [CartController::class, "addcart"])->name('site.cart.addcart');
+Route::get("cart/update", [CartController::class, "update"])->name('site.cart.update');
+Route::get("cart/delete/{id}", [CartController::class, "delete"])->name('site.cart.delete');
+
+Route::get("dang-nhap", [AuthController::class, "getlogin"])->name('website.getlogin');
+Route::post("dang-nhap", [AuthController::class, "dologin"])->name('website.dologin');
+Route::get("dang-xuat", [AuthController::class, "logout"])->name('website.logout');
 
 // Backend
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware("middleauth")->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard.index');
     // Product
     Route::prefix('product')->group(function () {
@@ -137,18 +143,18 @@ Route::prefix('admin')->group(function () {
     });
 
     // Order
-    // Route::prefix('order')->group(function () {
-    //     Route::get('/', [OrderController::class, 'index'])->name('admin.order.index');
-    //     Route::get('trash', [OrderController::class, 'trash'])->name('admin.order.trash');
-    //     Route::get('show/{id}', [OrderController::class, 'show'])->name('admin.order.show');
-    //     Route::post('store', [OrderController::class, 'store'])->name('admin.order.store');
-    //     Route::get('edit/{id}', [OrderController::class, 'edit'])->name('admin.order.edit');
-    //     Route::get('update/{id}', [OrderController::class, 'update'])->name('admin.order.update');
-    //     Route::get('delete/{id}', [OrderController::class, 'delete'])->name('admin.order.delete');
-    //     Route::get('restore/{id}', [OrderController::class, 'restore'])->name('admin.order.restore');
-    //     Route::get('destroy/{id}', [OrderController::class, 'destroy'])->name('admin.order.destroy');
-    //     Route::get('status', [OrderController::class, 'status'])->name('admin.order.status');
-    // });
+    Route::prefix('order')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('admin.order.index');
+        // Route::get('trash', [OrderController::class, 'trash'])->name('admin.order.trash');
+        // Route::get('show/{id}', [OrderController::class, 'show'])->name('admin.order.show');
+        // Route::post('store', [OrderController::class, 'store'])->name('admin.order.store');
+        // Route::get('edit/{id}', [OrderController::class, 'edit'])->name('admin.order.edit');
+        // Route::get('update/{id}', [OrderController::class, 'update'])->name('admin.order.update');
+        // Route::get('delete/{id}', [OrderController::class, 'delete'])->name('admin.order.delete');
+        // Route::get('restore/{id}', [OrderController::class, 'restore'])->name('admin.order.restore');
+        // Route::get('destroy/{id}', [OrderController::class, 'destroy'])->name('admin.order.destroy');
+        // Route::get('status', [OrderController::class, 'status'])->name('admin.order.status');
+    });
 
     // Post
     Route::prefix('post')->group(function () {

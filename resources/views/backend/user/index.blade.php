@@ -34,7 +34,7 @@
                     <thead>
                         <tr>
                             <th class="text-center" style="width:30px">#</th>
-                            <th class="text-center" style="width:90px">Hình</th>
+                            <th class="text-center" style="width:130px">Hình</th>
                             <th>Họ tên</th>
                             <th>Điện thoại</th>
                             <th>Email</th>
@@ -47,21 +47,24 @@
                         @foreach ($list as $row)
                         <tr>
                             <td><input type="checkbox"></td>
-                            <td><img src="{{asset("public/images/" . $row->image)}}" alt="{{$row->image}}"></td>
+                            <td><img style="width: 100px" src="{{asset("images/user/" . $row->image)}}" alt="{{$row->image}}"></td>
                             <td>{{$row->name}}</td>
                             <td>{{$row->phone}}</td>
                             <td>{{$row->email}}</td>
                             <td>
-                                <a href="" class="btn btn-sm btn-success">
+                                @php
+                                $agrs = ['id' => $row->id];
+                                @endphp
+                                <a href="{{route('admin.user.status', $agrs)}}" class="btn btn-sm btn-success">
                                     <i class="fa fa-toggle-on" aria-hidden="true"></i>
                                 </a>
-                                <a href="{{route('admin.user.show', ['id' => $row->id])}}" class="btn btn-sm btn-info">
+                                <a href="{{route('admin.user.show', $agrs)}}" class="btn btn-sm btn-info">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
-                                <a href="{{route('admin.user.edit', ['id' => $row->id])}}" class="btn btn-sm btn-primary">
+                                <a href="{{route('admin.user.edit', $agrs)}}" class="btn btn-sm btn-primary">
                                     <i class="fa fa-edit" aria-hidden="true"></i>
                                 </a>
-                                <a href="{{route('admin.user.trash')}}" class="btn btn-sm btn-danger">
+                                <a href="{{route('admin.user.trash', $agrs)}}" class="btn btn-sm btn-danger">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </a>
                             </td>

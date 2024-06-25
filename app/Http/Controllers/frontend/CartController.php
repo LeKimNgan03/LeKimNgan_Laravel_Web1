@@ -10,7 +10,8 @@ class CartController extends Controller
 {
     public function index()
     {
-        return view("frontend.cart");
+        $list_cart = session('carts', []);
+        return view("frontend.cart", compact('list_cart'));
     }
 
     public function addcart()
@@ -45,5 +46,32 @@ class CartController extends Controller
         }
         session(['carts' => $carts]);
         echo count(session('carts', []));
+    }
+
+    public function update(Request $request)
+    {
+        $carts = session('carts', []);
+        $list_qty = $request->qty;
+        foreach ($carts as $key => $cart) {
+            foreach ($list_qty as $productid => $qtyvalue) {
+                if ($carts[$key]['id'] == $productid) {
+                    $cart[$key]['qty'] += $qtyvalue;
+                }
+            }
+        }
+        session(['carts' => $carts]);
+        return redirect()->route('site.cart.index');
+    }
+
+    public function delete($id)
+    {
+        $carts = session('carts', []);
+        foreach ($carts as $key => $cart) {
+            if ($cart[$key]['id'] == $id) {
+                unset($carts[$key]);
+            }
+        }
+        session(['carts' => $carts]);
+        return redirect()->route('site.cart.index');
     }
 }

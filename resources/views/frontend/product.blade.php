@@ -2,6 +2,7 @@
 @section('title', 'Tất cả sản phẩm')
 @section('content')
 <x-main-menu />
+
 <div class="container my-5">
     <h2 class="text-center">Tất cả sản phẩm</h2>
     <div class="row">
@@ -13,4 +14,5 @@
         {{ $list_product->links() }}
     </div>
 </div>
+
 @endsection
