@@ -62,7 +62,12 @@ class MenuController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $menu = Menu::find($id);
+        if ($menu == null) {
+            return redirect()->route('admin.menu.index');
+        }
+        $list = Menu::where('id', '=', $id)->orderBy('created_at', 'desc')->get();
+        return view('backend.menu.show', compact('list'));
     }
 
     /**
@@ -122,6 +127,60 @@ class MenuController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $menu = Menu::find($id);
+        if ($menu == null) {
+            return redirect()->route('admin.menu.index');
+        }
+        $menu->delete();
+        toastr()->success('Xóa khỏi CSDL thành công!');
+        return redirect()->route('admin.menu.trash');
+    }
+
+    public function trash()
+    {
+        $list = Menu::where('status', '=', 0)->orderBy('created_at', 'desc')->get();
+        return view("backend.menu.trash", compact("list"));
+    }
+
+    public function delete(string $id)
+    {
+        $menu = Menu::find($id);
+        if ($menu == null) {
+            return redirect()->route('admin.menu.index');
+        }
+        $menu->status = 0;
+        $menu->updated_at = date('Y-m-d H:i:s');
+        $menu->updated_by = Auth::id() ?? 1;
+        $menu->save();
+        toastr()->success('Xóa vào thùng rác thành công!');
+        return redirect()->route('admin.menu.index');
+    }
+
+    public function restore(string $id)
+    {
+        $menu = Menu::find($id);
+        if ($menu == null) {
+            return redirect()->route('admin.menu.index');
+        }
+        $menu->status = 2;
+        $menu->updated_at = date('Y-m-d H:i:s');
+        $menu->updated_by = Auth::id() ?? 1;
+        $menu->save();
+        toastr()->success('Khôi phục thành công!');
+        return redirect()->route('admin.menu.trash');
+    }
+
+    public function status(string $id)
+    {
+        $menu = Menu::find($id);
+        if ($menu == null) {
+            return redirect()->route('admin.menu.index');
+        }
+        $menu->status = ($menu->status == 1) ? 2 : 1;
+        $menu->updated_at = date('Y-m-d H:i:s');
+        $menu->updated_by = Auth::id() ?? 1;
+        $menu->save();
+        toastr()->success('Thay đổi trạng thái thành công!');
+        return redirect()->route('admin.menu.index');
     }
 }

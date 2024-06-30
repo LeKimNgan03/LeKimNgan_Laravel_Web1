@@ -35,11 +35,12 @@
                         <tr>
                             <th class="text-center" style="width:30px">#</th>
                             <th class="text-center" style="width:130px">Hình</th>
-                            <th>Họ tên</th>
-                            <th>Điện thoại</th>
-                            <th>Email</th>
-                            <th class="text-center" style="width:190px">Chức năng</th>
-                            <th class="text-center" style="width:30px">ID</th>
+                            <th class="text-center">Họ tên</th>
+                            <th class="text-center">Điện thoại</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Vai trò</th>
+                            <th class="text-center" style="width:170px">Chức năng</th>
+                            <th class="text-center" style="width:40px">ID</th>
                         </tr>
                     </thead>
 
@@ -51,20 +52,29 @@
                             <td>{{$row->name}}</td>
                             <td>{{$row->phone}}</td>
                             <td>{{$row->email}}</td>
+                            <td>{{$row->roles}}</td>
                             <td>
                                 @php
                                 $agrs = ['id' => $row->id];
                                 @endphp
+
+                                @if ($row->status == 1)
                                 <a href="{{route('admin.user.status', $agrs)}}" class="btn btn-sm btn-success">
                                     <i class="fa fa-toggle-on" aria-hidden="true"></i>
                                 </a>
+                                @else
+                                <a href="{{route('admin.user.status', $agrs)}}" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-toggle-off" aria-hidden="true"></i>
+                                </a>
+                                @endif
+
                                 <a href="{{route('admin.user.show', $agrs)}}" class="btn btn-sm btn-info">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
                                 <a href="{{route('admin.user.edit', $agrs)}}" class="btn btn-sm btn-primary">
                                     <i class="fa fa-edit" aria-hidden="true"></i>
                                 </a>
-                                <a href="{{route('admin.user.trash', $agrs)}}" class="btn btn-sm btn-danger">
+                                <a href="{{route('admin.user.delete', $agrs)}}" class="btn btn-sm btn-danger">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </a>
                             </td>

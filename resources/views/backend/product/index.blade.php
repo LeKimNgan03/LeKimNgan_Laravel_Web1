@@ -35,9 +35,11 @@
                         <tr>
                             <th class="text-center" style="width:30px">#</th>
                             <th class="text-center" style="width:130px">Hình</th>
-                            <th>Tên sản phẩm</th>
-                            <th>Danh mục</th>
-                            <th>Thương hiệu</th>
+                            <th class="text-center">Tên sản phẩm</th>
+                            <th class="text-center">Danh mục</th>
+                            <th class="text-center">Thương hiệu</th>
+                            <th class="text-center">Giá bán</th>
+                            <th class="text-center">Giá khuyến mãi</th>
                             <th class="text-center" style="width:170px">Chức năng</th>
                             <th class="text-center" style="width:40px">ID</th>
                         </tr>
@@ -50,13 +52,23 @@
                             <td>{{$row->name}}</td>
                             <td>{{$row->categoryname}}</td>
                             <td>{{$row->brandname}}</td>
+                            <td>{{$row->price}}</td>
+                            <td>{{$row->pricesale}}</td>
                             <td>
                                 @php
                                 $agrs = ['id' => $row->id];
                                 @endphp
+
+                                @if ($row->status == 1)
                                 <a href="{{route('admin.product.status', $agrs)}}" class="btn btn-sm btn-success">
                                     <i class="fa fa-toggle-on" aria-hidden="true"></i>
                                 </a>
+                                @else
+                                <a href="{{route('admin.product.status', $agrs)}}" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-toggle-off" aria-hidden="true"></i>
+                                </a>
+                                @endif
+
                                 <a href="{{route('admin.product.show', $agrs)}}" class="btn btn-sm btn-info">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
@@ -74,6 +86,7 @@
                 </table>
             </div>
         </div>
+        {{$list->links()}}
     </section>
 </div>
 <!-- /.CONTENT -->

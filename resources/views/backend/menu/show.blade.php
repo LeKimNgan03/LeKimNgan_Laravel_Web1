@@ -24,10 +24,10 @@
                         $agrs = ['id' => $row->id]
                         @endphp
                         <a href="{{route('admin.menu.edit', $agrs)}}" class="btn btn-sm btn-primary">
-                            <i class="far fa-edit"></i> Sửa
+                            <i class="fa fa-edit"></i> Sửa
                         </a>
                         <a href="{{route('admin.menu.delete', $agrs)}}" class="btn btn-sm btn-danger">
-                            <i class="fas fa-trash"></i> Xóa
+                            <i class="fa fa-trash"></i> Xóa
                         </a>
                         <a href="{{route('admin.menu.index')}}" class="btn btn-sm btn-info">
                             <i class="fa fa-arrow-left"></i> Về danh sách
@@ -60,7 +60,7 @@
                             <td>{{$row->link}}</td>
                         </tr>
                         <tr>
-                            <td>table_id</td>
+                            <td>Table_id</td>
                             <td>{{$row->table_id}}</td>
                         </tr>
                         <tr>
@@ -80,25 +80,8 @@
                             <td>{{$row->sort_order}}</td>
                         </tr>
                         <tr>
-                            <td>Created_at</td>
-                            <td>{{$row->created_at}}</td>
-                        </tr>
-                        <tr>
-                            <td>updated_at</td>
-                            <td>{{$row->updated_at}}</td>
-                        </tr>
-
-                        <tr>
                             <td>Status</td>
                             <td>{{$row->status}}</td>
-                        </tr>
-                        <tr>
-                            <td>created_by</td>
-                            <td>{{$row->created_by}}</td>
-                        </tr>
-                        <tr>
-                            <td>updated_by</td>
-                            <td>{{$row->updated_by}}</td>
                         </tr>
                     </tbody>
                 </table>

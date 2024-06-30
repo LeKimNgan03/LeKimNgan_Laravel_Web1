@@ -28,12 +28,12 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th class="text-center">#</th>
-                            <th>Tên menu</th>
-                            <th>Liên kết</th>
-                            <th>Vị trí</th>
-                            <th>Chức năng</th>
-                            <th>ID</th>
+                            <th class="text-center" style="width:30px">#</th>
+                            <th class="text-center">Tên menu</th>
+                            <th class="text-center">Liên kết</th>
+                            <th class="text-center">Vị trí</th>
+                            <th class="text-center" style="width:170px">Chức năng</th>
+                            <th class="text-center" style="width:40px">ID</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,7 +68,7 @@
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </a>
                             </td>
-                            <td>{{ $row->id }}</td>
+                            <td>{{$row->id}}</td>
                         </tr>
                         @endforeach
                     </tbody>

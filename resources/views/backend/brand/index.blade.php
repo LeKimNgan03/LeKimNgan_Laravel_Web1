@@ -18,12 +18,10 @@
     <section class="content">
         <div class="card">
             <div class="card-header text-right">
-                <button class="btn btn-sm btn-danger">
-                    <a href="{{route('admin.brand.trash')}}" class="text-white">
-                        <i class="fa fa-trash"></i>
-                        Thùng rác
-                    </a>
-                </button>
+                <a href="{{route('admin.brand.trash')}}" class="text-white btn btn-sm btn-danger">
+                    <i class="fa fa-trash"></i>
+                    Thùng rác
+                </a>
             </div>
 
             <div class="card-body">
@@ -85,8 +83,8 @@
                                 <tr>
                                     <th class="text-center" style="width:30px">#</th>
                                     <th class="text-center" style="width:130px">Hình ảnh</th>
-                                    <th>Tên thương hiệu</th>
-                                    <th>Tên slug</th>
+                                    <th class="text-center">Tên thương hiệu</th>
+                                    <th class="text-center">Tên slug</th>
                                     <th class="text-center" style="width:170px">Chức năng</th>
                                     <th class="text-center" style="width:40px">ID</th>
 

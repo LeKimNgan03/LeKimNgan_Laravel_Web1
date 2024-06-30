@@ -55,7 +55,7 @@ class CartController extends Controller
         foreach ($carts as $key => $cart) {
             foreach ($list_qty as $productid => $qtyvalue) {
                 if ($carts[$key]['id'] == $productid) {
-                    $cart[$key]['qty'] += $qtyvalue;
+                    $carts[$key]['qty'] = $qtyvalue;
                 }
             }
         }
@@ -67,11 +67,47 @@ class CartController extends Controller
     {
         $carts = session('carts', []);
         foreach ($carts as $key => $cart) {
-            if ($cart[$key]['id'] == $id) {
+            if ($carts[$key]['id'] == $id) {
                 unset($carts[$key]);
             }
         }
         session(['carts' => $carts]);
         return redirect()->route('site.cart.index');
     }
+
+    // public function docheckout(Request $request)
+    // {
+    //     $user=Auth::user();
+    //     $carts = session('carts',[]);
+    //     if(count($carts)>0)
+    //     {
+    //     $order=new Order();
+    //     $order->user_id = $user->id;
+    //     $order->delivery_name=$request->name;
+    //     $order->delivery_gender=$user->gender;
+    //     $order->delivery_email=$request->email;
+    //     $order->delivery_phone=$request->phone;
+    //     $order->delivery_address=$request->address;
+    //     $order->note=$request->note;
+    //     $order->created_at=date('Y-m-d H:i:s');
+    //     $order->type='online';
+    //     $order->status=2;
+    //     if($order->save())
+    //     {
+    //         foreach($carts as $cart)
+    //         {
+    //             $orderdetail = new Orderdetail();
+    //             $orderdetail->order_id=$order->id;
+    //             $orderdetail->product_id=$cart['id'];
+    //             $orderdetail->price=$cart['price'];
+    //             $orderdetail->qty=$cart['qty'];
+    //             $orderdetail->discount=0;
+    //             $orderdetail->amount=$cart['price']*$cart['qty'];
+    //             $orderdetail->save();
+    //         }
+    //     }
+    //     session(['carts'=>[]]);
+    //     }
+    //     return view("frontend.checkout_message");
+    // }
 }

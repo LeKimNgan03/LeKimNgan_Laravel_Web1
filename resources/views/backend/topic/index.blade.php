@@ -18,12 +18,10 @@
     <section class="content">
         <div class="card">
             <div class="card-header text-right">
-                <button class="btn btn-sm btn-danger">
-                    <a href="{{route('admin.topic.trash')}}" class="text-white">
-                        <i class="fa fa-trash"></i>
-                        Thùng rác
-                    </a>
-                </button>
+                <a href="{{route('admin.topic.trash')}}" class="text-white btn btn-sm btn-danger">
+                    <i class="fa fa-trash"></i>
+                    Thùng rác
+                </a>
             </div>
 
             <div class="card-body">
@@ -68,9 +66,9 @@
                             <thead>
                                 <tr>
                                     <th class="text-center" style="width:30px">#</th>
-                                    <th>Tên chủ đề</th>
-                                    <th>Tên slug</th>
-                                    <th>Mô tả</th>
+                                    <th class="text-center">Tên chủ đề</th>
+                                    <th class="text-center">Tên slug</th>
+                                    <th class="text-center">Mô tả</th>
                                     <th class="text-center" style="width:170px">Chức năng</th>
                                     <th class="text-center" style="width:40px">ID</th>
                                 </tr>
@@ -86,9 +84,17 @@
                                         @php
                                         $agrs = ['id' => $row->id];
                                         @endphp
+
+                                        @if ($row->status == 1)
                                         <a href="{{route('admin.topic.status', $agrs)}}" class="btn btn-sm btn-success">
                                             <i class="fa fa-toggle-on" aria-hidden="true"></i>
                                         </a>
+                                        @else
+                                        <a href="{{route('admin.topic.status', $agrs)}}" class="btn btn-sm btn-danger">
+                                            <i class="fa fa-toggle-off" aria-hidden="true"></i>
+                                        </a>
+                                        @endif
+
                                         <a href="{{route('admin.topic.show', $agrs)}}" class="btn btn-sm btn-info">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                         </a>

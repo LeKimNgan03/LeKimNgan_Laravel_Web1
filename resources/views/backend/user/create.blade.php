@@ -37,19 +37,22 @@
                             <!-- Name -->
                             <div class="mb-3">
                                 <label for="name">Họ tên</label>
-                                <input type="text" value="" name="name" id="name" class="form-control">
+                                <input type="text" value="{{old('name')}}" name="name" id="name" class="form-control">
+                                @error('name')
+                                {{ $message }}
+                                @enderror
                             </div>
 
                             <!-- Phone -->
                             <div class="mb-3">
                                 <label for="phone">Điện thoại</label>
-                                <input type="number" value="" name="phone" id="phone" class="form-control">
+                                <input type="number" value="{{old('phone')}}" name="phone" id="phone" class="form-control">
                             </div>
 
                             <!-- Email -->
                             <div class="mb-3">
                                 <label for="email">Email</label>
-                                <input type="email" value="" name="email" id="email" class="form-control">
+                                <input type="email" value="{{old('email')}}" name="email" id="email" class="form-control">
                             </div>
 
                             <!-- Gender -->
@@ -64,7 +67,7 @@
                             <!-- Address -->
                             <div class="mb-3">
                                 <label for="address">Địa chỉ</label>
-                                <input type="text" value="" name="address" id="address" class="form-control">
+                                <input type="text" value="{{old('address')}}" name="address" id="address" class="form-control">
                             </div>
                         </div>
 
@@ -72,19 +75,13 @@
                             <!-- Username -->
                             <div class="mb-3">
                                 <label for="username">Tên đăng nhập</label>
-                                <input type="text" value="" name="username" id="username" class="form-control">
+                                <input type="text" value="{{old('username')}}" name="username" id="username" class="form-control">
                             </div>
 
                             <!-- Password -->
                             <div class="mb-3">
                                 <label for="password">Mật khẩu</label>
-                                <input type="password" value="" name="password" id="password" class="form-control">
-                            </div>
-
-                            <!-- Re-Password -->
-                            <div class="mb-3">
-                                <label for="password_re">Xác nhận mật khẩu</label>
-                                <input type="password" value="" name="password_re" id="password_re" class="form-control">
+                                <input type="password" value="{{old('password')}}" name="password" id="password" class="form-control">
                             </div>
 
                             <!-- Image -->
@@ -93,7 +90,7 @@
                                 <input type="file" name="image" id="image" class="form-control">
                             </div>
 
-                            <!--  -->
+                            <!-- Roles -->
                             <div class="mb-3">
                                 <label for="roles">Quyền</label>
                                 <select name="roles" id="roles" class="form-control">

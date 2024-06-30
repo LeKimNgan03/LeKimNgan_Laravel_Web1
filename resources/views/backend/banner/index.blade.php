@@ -14,6 +14,7 @@
         </div>
     </section>
 
+    <!-- Main content -->
     <section class="content">
         <div class="card">
             <div class="card-header">
@@ -35,8 +36,8 @@
                         <tr>
                             <th class="text-center" style="width:30px">#</th>
                             <th class="text-center" style="width:130px">Hình</th>
-                            <th>Tên banner</th>
-                            <th>Vị trí</th>
+                            <th class="text-center">Tên banner</th>
+                            <th class="text-center">Vị trí</th>
                             <th class="text-center" style="width:170px">Chức năng</th>
                             <th class="text-center" style="width:40px">ID</th>
                         </tr>
@@ -52,9 +53,17 @@
                                 @php
                                 $agrs = ['id' => $row->id];
                                 @endphp
+                                
+                                @if ($row->status == 1)
                                 <a href="{{route('admin.banner.status', $agrs)}}" class="btn btn-sm btn-success">
                                     <i class="fa fa-toggle-on" aria-hidden="true"></i>
                                 </a>
+                                @else
+                                <a href="{{route('admin.banner.status', $agrs)}}" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-toggle-off" aria-hidden="true"></i>
+                                </a>
+                                @endif 
+
                                 <a href="{{route('admin.banner.show', $agrs)}}" class="btn btn-sm btn-info">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>

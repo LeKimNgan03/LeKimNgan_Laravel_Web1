@@ -32,30 +32,36 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-9">
+                            <!-- Tên menu -->
                             <div class="mb-3">
                                 <label>Tên menu</label>
-                                <input type="text" name="name" id="name" placeholder="Nhập tên menu" class="form-control" value="{{ old('name') }}">
+                                <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}">
                                 @error('name')
                                 {{ $message }}
                                 @enderror
                             </div>
 
+                            <!-- Link -->
                             <div class="mb-3">
                                 <label>Link</label>
-                                <input type="text" name="link" id="link" placeholder="Nhập link" class="form-control" value="{{old('link')}}">
+                                <input type="text" name="link" id="link" class="form-control" value="{{old('link')}}">
                             </div>
 
+                            <!-- Type -->
                             <div class="mb-3">
                                 <label>Type</label>
-                                <input type="text" name="type" id="type" placeholder="Nhập type" class="form-control" value="{{old('type')}}">
+                                <input type="text" name="type" id="type" class="form-control" value="{{old('type')}}">
                             </div>
+
+                            <!-- Position -->
                             <div class="mb-3">
                                 <label>Vị trí</label>
-                                <input type="text" name="position" id="position" placeholder="Nhập vị trí" class="form-control" value="{{old('position')}}">
+                                <input type="text" name="position" id="position" class="form-control" value="{{old('position')}}">
                             </div>
                         </div>
 
                         <div class="col-md-3">
+                            <!--  -->
                             <div class="mb-3">
                                 <label>Bảng</label>
                                 <select name="table_id" class="form-control">
@@ -63,6 +69,7 @@
                                 </select>
                             </div>
 
+                            <!-- Parent_id -->
                             <div class="mb-3">
                                 <label for="parent_id">Danh mục cha</label>
                                 <select name="parent_id" id="parent_id" class="form-control">
@@ -72,6 +79,7 @@
                                 </select>
                             </div>
 
+                            <!-- Sort_order -->
                             <div class="mb-3">
                                 <label for="sort_order">Sắp xếp</label>
                                 <select name="sort_order" id="sort_order" class="form-control">
@@ -81,6 +89,7 @@
                                 </select>
                             </div>
 
+                            <!-- Status -->
                             <div class="mb-3">
                                 <label>Trạng thái</label>
                                 <select name="status" class="form-control">

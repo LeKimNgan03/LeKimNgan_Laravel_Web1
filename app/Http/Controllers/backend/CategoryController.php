@@ -61,15 +61,6 @@ class CategoryController extends Controller
         return redirect()->route('admin.category.index');
     }
 
-    public function trash()
-    {
-        $list = Category::where('status', '!=', 0)
-        ->orderBy('created_at', 'desc')
-        ->select("id", "image", "name", "slug", "sort_order", "status")
-        ->get();
-        return view('backend.category.trash', compact("list"));
-    }
-    
     /**
      * Display the specified resource.
      */
@@ -79,7 +70,8 @@ class CategoryController extends Controller
         if ($category == null) {
             return redirect()->route('admin.category.index');
         }
-        return view('backend.category.show', compact("category"));
+        $list = Category::where('id', '=', $id)->orderBy('created_at', 'desc')->get();
+        return view('backend.category.show', compact("list"));
     }
 
     /**
@@ -149,7 +141,14 @@ class CategoryController extends Controller
             return redirect()->route('admin.category.index');
         }
         $category->delete();
+        toastr()->success('Xóa khỏi CSDL thành công!');
         return redirect()->route('admin.category.trash');
+    }
+
+    public function trash()
+    {
+        $list = Category::where('status', '=', 0)->orderBy('created_at', 'desc')->get();
+        return view("backend.category.trash", compact("list"));
     }
 
     public function delete(string $id)
@@ -158,10 +157,11 @@ class CategoryController extends Controller
         if ($category == null) {
             return redirect()->route('admin.category.index');
         }
-        $category->created_at = date('Y-m-d H:i:s');
-        $category->created_by = Auth::id() ?? 1;
+        $category->updated_at = date('Y-m-d H:i:s');
+        $category->updated_by = Auth::id() ?? 1;
         $category->status = 0; //form
         $category->save();
+        toastr()->success('Bạn xóa dữ liệu thành công!');
         return redirect()->route('admin.category.index');
     }
 
@@ -171,10 +171,11 @@ class CategoryController extends Controller
         if ($category == null) {
             return redirect()->route('admin.category.index');
         }
-        $category->created_at = date('Y-m-d H:i:s');
-        $category->created_by = Auth::id() ?? 1;
+        $category->updated_at = date('Y-m-d H:i:s');
+        $category->updated_by = Auth::id() ?? 1;
         $category->status = 2; //form
         $category->save();
+        toastr()->success('Bạn khôi phục dữ liệu thành công!');
         return redirect()->route('admin.category.index');
     }
 
@@ -184,10 +185,11 @@ class CategoryController extends Controller
         if ($category == null) {
             return redirect()->route('admin.category.index');
         }
-        $category->created_at = date('Y-m-d H:i:s');
-        $category->created_by = Auth::id() ?? 1;
+        $category->updated_at = date('Y-m-d H:i:s');
+        $category->updated_by = Auth::id() ?? 1;
         $category->status = ($category->status == 1) ? 2 : 1; //form
         $category->save();
+        toastr()->success('Bạn thay đổi trạng thái thành công!');
         return redirect()->route('admin.category.index');
     }
 }

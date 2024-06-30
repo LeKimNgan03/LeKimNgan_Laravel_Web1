@@ -45,7 +45,7 @@
                     <input type="number" class="form-control text-center" id="qty" value="1" min="1">
                 </div>
                 <div class="col-6">
-                    <button type="button" class="btn btn-light" onclick="handleAddCart()">Thêm vào giỏ hàng</button>
+                    <button type="button" class="btn btn-light"onclick="handleAddCart({{ $product->id }})">Thêm vào giỏ hàng</button>
                 </div>
             </div>
         </div>
@@ -89,7 +89,7 @@
 <script>
     function handleAddCart(productid) {
         let qty = document.getElementById("qty").value;
-        $.ajax({
+        $j.ajax({
             type: "GET",
             url: "{{ route('site.cart.addcart') }}",
             data: {

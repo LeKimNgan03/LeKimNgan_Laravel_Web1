@@ -63,7 +63,12 @@ class BrandController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $brand = Brand::find($id);
+        if ($brand == null) {
+            return redirect()->route('admin.brand.index');
+        }
+        $list = Brand::where('id', '=', $id)->orderBy('created_at', 'desc')->get();
+        return view("backend.brand.show", compact("list"));
     }
 
     /**
@@ -121,6 +126,60 @@ class BrandController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $brand = Brand::find($id);
+        if ($brand == null) {
+            return redirect()->route('admin.brand.index');
+        }
+        $brand->delete();
+        toastr()->success('Bạn xóa dữ liệu thành công!');
+        return redirect()->route('admin.brand.trash');
+    }
+
+    public function trash()
+    {
+        $list = Brand::where('status', '=', 0)->orderBy('created_at', 'desc')->get();
+        return view("backend.brand.trash", compact("list"));
+    }
+
+    public function delete(string $id)
+    {
+        $brand = Brand::find($id);
+        if ($brand == null) {
+            return redirect()->route('admin.brand.index');
+        }
+        $brand->updated_at = date('Y-m-d H:i:s');
+        $brand->updated_by = Auth::id() ?? 1;
+        $brand->status = 0; //form
+        $brand->save();
+        toastr()->success('Bạn xóa dữ liệu thành công!');
+        return redirect()->route('admin.brand.index');
+    }
+
+    public function restore(string $id)
+    {
+        $brand = Brand::find($id);
+        if ($brand == null) {
+            return redirect()->route('admin.brand.index');
+        }
+        $brand->updated_at = date('Y-m-d H:i:s');
+        $brand->updated_by = Auth::id() ?? 1;
+        $brand->status = 2; //form
+        $brand->save();
+        toastr()->success('Bạn khôi phục dữ liệu thành công!');
+        return redirect()->route('admin.brand.index');
+    }
+
+    public function status(string $id)
+    {
+        $brand = Brand::find($id);
+        if ($brand == null) {
+            return redirect()->route('admin.brand.index');
+        }
+        $brand->updated_at = date('Y-m-d H:i:s');
+        $brand->updated_by = Auth::id() ?? 1;
+        $brand->status = ($brand->status == 1) ? 2 : 1; //form
+        $brand->save();
+        toastr()->success('Bạn thay đổi trạng thái thành công!');
+        return redirect()->route('admin.brand.index');
     }
 }

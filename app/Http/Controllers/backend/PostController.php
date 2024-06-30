@@ -21,7 +21,7 @@ class PostController extends Controller
             ->join('topic', 'topic.id', '=', 'post.topic_id')
             ->select('post.id', 'post.title', 'post.image', 'topic.name as topicname', 'post.slug')
             ->orderBy('post.created_at', 'desc')
-            ->get();
+            ->paginate(5);
         return view('backend.post.index', compact("list"));
     }
 
@@ -71,7 +71,16 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $post = Post::find($id);
+        if ($post == null) {
+            return redirect()->route('admin.post.index');
+        }
+        $list = Post::where('post.id', '=', $id)
+            ->join('topic', 'topic.id', '=', 'post.topic_id')
+            ->select('post.id', 'post.title', 'post.image', 'topic.name as topicname', 'post.slug', 'post.type', 'post.detail', 'post.description')
+            ->orderBy('post.created_at', 'desc')
+            ->get();
+        return view('backend.post.show', compact('list'));
     }
 
     /**
@@ -131,6 +140,64 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $post = Post::find($id);
+        if ($post == null) {
+            return redirect()->route('admin.post.index');
+        }
+        $post->delete();
+        toastr()->success('Bạn xóa dữ liệu thành công!');
+        return redirect()->route('admin.post.trash');
+    }
+
+    public function trash()
+    {
+        $list = Post::where('post.status', '=', 0)
+            ->join('topic', 'topic.id', '=', 'post.topic_id')
+            ->select('post.id', 'topic.name as topic_name', 'post.title', 'post.image', 'post.detail', 'post.description')
+            ->orderBy("post.created_at", "DESC")
+            ->get();
+        return view('backend.post.trash', compact('list'));
+    }
+
+    public function delete(string $id)
+    {
+        $post = Post::find($id);
+        if ($post == null) {
+            return redirect()->route('admin.post.index');
+        }
+        $post->updated_at = date('Y-m-d H:i:s');
+        $post->updated_by = Auth::id() ?? 1;
+        $post->status = 0; //form
+        $post->save();
+        toastr()->success('Bạn xóa dữ liệu thành công!');
+        return redirect()->route('admin.post.index');
+    }
+
+    public function restore(string $id)
+    {
+        $post = Post::find($id);
+        if ($post == null) {
+            return redirect()->route('admin.post.index');
+        }
+        $post->updated_at = date('Y-m-d H:i:s');
+        $post->updated_by = Auth::id() ?? 1;
+        $post->status = 2; //form
+        $post->save();
+        toastr()->success('Bạn khôi phục dữ liệu thành công!');
+        return redirect()->route('admin.post.index');
+    }
+
+    public function status(string $id)
+    {
+        $post = Post::find($id);
+        if ($post == null) {
+            return redirect()->route('admin.post.index');
+        }
+        $post->updated_at = date('Y-m-d H:i:s');
+        $post->updated_by = Auth::id() ?? 1;
+        $post->status = ($post->status == 1) ? 2 : 1; //form
+        $post->save();
+        toastr()->success('Bạn thay đổi trạng thái thành công!');
+        return redirect()->route('admin.post.index');
     }
 }

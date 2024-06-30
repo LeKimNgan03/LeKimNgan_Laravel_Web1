@@ -18,13 +18,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $list = Product::where('product.status', '!=', 0)
+        $list = Product::where('product.status', '=', 1)
             ->join('category', 'category.id', '=', 'product.category_id')
             ->join('brand', 'brand.id', '=', 'product.brand_id')
-            ->select('product.id', 'product.name', 'product.image', 'category.name as categoryname', 'brand.name as brandname')
+            ->select('product.id', 'product.id', 'product.name', 'product.image', 'category.name as categoryname', 'brand.name as brandname', 'price', 'pricesale', 'qty', 'product.detail', 'product.description')
             ->orderBy('product.created_at', 'desc')
-            ->get();
-        return view('backend.product.index', compact("list"));
+            ->paginate(5);
+        return view("backend.product.index", compact("list"));
     }
 
     /**
@@ -81,7 +81,17 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $product = Product::find($id);
+        if ($product == null) {
+            return redirect()->route('admin.product.index');
+        }
+        $list = Product::where('product.id', '=', $id)
+            ->join('category', 'category.id', '=', 'product.category_id')
+            ->join('brand', 'brand.id', '=', 'product.brand_id')
+            ->select('product.id', 'product.id', 'product.name', 'product.image', 'category.id as categoryid', 'brand.id as brandid', 'product.price', 'product.pricesale', 'product.qty', 'product.detail', 'product.description', 'product.slug', 'product.created_at', 'product.created_by', 'product.updated_at', 'product.updated_by', 'product.status')
+            ->orderBy('product.created_at', 'desc')
+            ->get();
+        return view("backend.product.show", compact("list"));
     }
 
     /**
@@ -154,6 +164,65 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = Product::find($id);
+        if ($product == null) {
+            return redirect()->route('admin.product.index');
+        }
+        $product->delete();
+        toastr()->success('Bạn xóa dữ liệu thành công!');
+        return redirect()->route('admin.product.trash');
+    }
+
+    public function trash()
+    {
+        $list = Product::where('product.status', '=', 0)
+            ->join('category', 'category.id', '=', 'product.category_id')
+            ->join('brand', 'brand.id', '=', 'product.brand_id')
+            ->select('product.id', 'product.id', 'product.name', 'product.image', 'category.name as categoryname', 'brand.name as brandname', 'price', 'pricesale', 'qty', 'product.detail', 'product.description')
+            ->orderBy('product.created_at', 'desc')
+            ->get();
+        return view("backend.product.trash", compact("list"));
+    }
+
+    public function delete(string $id)
+    {
+        $product = Product::find($id);
+        if ($product == null) {
+            return redirect()->route('admin.product.index');
+        }
+        $product->updated_at = date('Y-m-d H:i:s');
+        $product->updated_by = Auth::id() ?? 1;
+        $product->status = 0; //form
+        $product->save();
+        toastr()->success('Bạn xóa dữ liệu thành công!');
+        return redirect()->route('admin.product.index');
+    }
+
+    public function restore(string $id)
+    {
+        $product = Product::find($id);
+        if ($product == null) {
+            return redirect()->route('admin.product.index');
+        }
+        $product->updated_at = date('Y-m-d H:i:s');
+        $product->updated_by = Auth::id() ?? 1;
+        $product->status = 2; //form
+        $product->save();
+        toastr()->success('Bạn khôi phục dữ liệu thành công!');
+        return redirect()->route('admin.product.index');
+    }
+
+    public function status(string $id)
+    {
+        $product = Product::find($id);
+        if ($product == null) {
+            return redirect()->route('admin.product.index');
+        }
+        $product->updated_at = date('Y-m-d H:i:s');
+        $product->updated_by = Auth::id() ?? 1;
+        $product->status = ($product->status == 1) ? 2 : 1; //form
+        $product->save();
+        toastr()->success('Bạn thay đổi trạng thái thành công!');
+        return redirect()->route('admin.product.index');
     }
 }

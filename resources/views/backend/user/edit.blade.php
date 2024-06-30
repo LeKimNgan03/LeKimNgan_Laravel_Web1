@@ -4,7 +4,7 @@
 
 <!-- CONTENT -->
 <div class="content-wrapper">
-    <form action="{{route('admin.user.update')}}" method="post" enctype="multipart/form-data">
+    <form action="{{route('admin.user.update', ['id' => $user->id])}}" method="post" enctype="multipart/form-data">
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -34,22 +34,26 @@
                     <div class="row">
                         <div class="col-md-6">
                             @csrf
+                            @method ('PUT')
                             <!-- Name -->
                             <div class="mb-3">
                                 <label for="name">Họ tên</label>
-                                <input type="text" value="" name="name" id="name" class="form-control">
+                                <input type="text" value="{{old('name', $user->name)}}" name="name" id="name" class="form-control">
+                                @error('name')
+                                {{ $message }}
+                                @enderror
                             </div>
 
                             <!-- Phone -->
                             <div class="mb-3">
                                 <label for="phone">Điện thoại</label>
-                                <input type="number" value="" name="phone" id="phone" class="form-control">
+                                <input type="number" value="{{old('phone', $user->phone)}}" name="phone" id="phone" class="form-control">
                             </div>
 
                             <!-- Email -->
                             <div class="mb-3">
                                 <label for="email">Email</label>
-                                <input type="email" value="" name="email" id="email" class="form-control">
+                                <input type="email" value="{{old('email', $user->email)}}" name="email" id="email" class="form-control">
                             </div>
 
                             <!-- Gender -->
@@ -64,7 +68,7 @@
                             <!-- Address -->
                             <div class="mb-3">
                                 <label for="address">Địa chỉ</label>
-                                <input type="text" value="" name="address" id="address" class="form-control">
+                                <input type="text" value="{{old('address', $user->address)}}" name="address" id="address" class="form-control">
                             </div>
                         </div>
 
@@ -72,19 +76,13 @@
                             <!-- Username -->
                             <div class="mb-3">
                                 <label for="username">Tên đăng nhập</label>
-                                <input type="text" value="" name="username" id="username" class="form-control">
+                                <input type="text" value="{{old('username', $user->username)}}" name="username" id="username" class="form-control">
                             </div>
 
                             <!-- Password -->
                             <div class="mb-3">
                                 <label for="password">Mật khẩu</label>
-                                <input type="password" value="" name="password" id="password" class="form-control">
-                            </div>
-
-                            <!-- Re-Password -->
-                            <div class="mb-3">
-                                <label for="password_re">Xác nhận mật khẩu</label>
-                                <input type="password" value="" name="password_re" id="password_re" class="form-control">
+                                <input type="password" value="{{old('password', $user->password)}}" name="password" id="password" class="form-control">
                             </div>
 
                             <!-- Image -->
@@ -93,7 +91,7 @@
                                 <input type="file" name="image" id="image" class="form-control">
                             </div>
 
-                            <!--  -->
+                            <!-- Roles -->
                             <div class="mb-3">
                                 <label for="roles">Quyền</label>
                                 <select name="roles" id="roles" class="form-control">
@@ -106,8 +104,8 @@
                             <div class="mb-3">
                                 <label for="status">Trạng thái</label>
                                 <select name="status" id="status" class="form-control">
-                                    <option value="1">Xuất bản</option>
-                                    <option value="2">Chưa xuất bản</option>
+                                    <option value="1" {{($user->status == 1) ? 'selected' : ''}}>Xuất bản</option>
+                                    <option value="2" {{($user->status == 2) ? 'selected' : ''}}>Chưa xuất bản
                                 </select>
                             </div>
                         </div>

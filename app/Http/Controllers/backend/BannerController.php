@@ -68,7 +68,12 @@ class BannerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $banner = Banner::find($id);
+        if ($banner == null) {
+            return redirect()->route('admin.banner.index');
+        }
+        $list = Banner::where('id', '=', $id)->orderBy('created_at', 'desc')->get();
+        return view("backend.banner.show", compact("list"));
     }
 
     /**
@@ -135,6 +140,60 @@ class BannerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $banner = Banner::find($id);
+        if ($banner == null) {
+            return redirect()->route('admin.banner.index');
+        }
+        $banner->delete();
+        toastr()->success('Bạn xóa dữ liệu thành công!');
+        return redirect()->route('admin.banner.trash');
+    }
+
+    public function trash()
+    {
+        $list = Banner::where('status', '=', 0)->orderBy('created_at', 'desc')->get();
+        return view("backend.banner.trash", compact("list"));
+    }
+
+    public function delete(string $id)
+    {
+        $banner = Banner::find($id);
+        if ($banner == null) {
+            return redirect()->route('admin.banner.index');
+        }
+        $banner->updated_at = date('Y-m-d H:i:s');
+        $banner->updated_by = Auth::id() ?? 1;
+        $banner->status = 0; //form
+        $banner->save();
+        toastr()->success('Bạn xóa dữ liệu thành công!');
+        return redirect()->route('admin.banner.index');
+    }
+
+    public function restore(string $id)
+    {
+        $banner = Banner::find($id);
+        if ($banner == null) {
+            return redirect()->route('admin.banner.index');
+        }
+        $banner->updated_at = date('Y-m-d H:i:s');
+        $banner->updated_by = Auth::id() ?? 1;
+        $banner->status = 2; //form
+        $banner->save();
+        toastr()->success('Bạn khôi phục dữ liệu thành công!');
+        return redirect()->route('admin.banner.index');
+    }
+
+    public function status(string $id)
+    {
+        $banner = Banner::find($id);
+        if ($banner == null) {
+            return redirect()->route('admin.banner.index');
+        }
+        $banner->updated_at = date('Y-m-d H:i:s');
+        $banner->updated_by = Auth::id() ?? 1;
+        $banner->status = ($banner->status == 1) ? 2 : 1; //form
+        $banner->save();
+        toastr()->success('Bạn thay đổi trạng thái thành công!');
+        return redirect()->route('admin.banner.index');
     }
 }

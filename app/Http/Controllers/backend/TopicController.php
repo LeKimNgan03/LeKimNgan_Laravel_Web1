@@ -51,7 +51,12 @@ class TopicController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $topic = Topic::find($id);
+        if ($topic == null) {
+            return redirect()->route('admin.topic.index');
+        }
+        $list = Topic::where('id', '=', $id)->orderBy("created_at", "DESC")->get();
+        return view("backend.topic.show", compact('list'));
     }
 
     /**
@@ -92,6 +97,60 @@ class TopicController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $topic = Topic::find($id);
+        if ($topic == null) {
+            return redirect()->route('admin.topic.index');
+        }
+        $topic->delete();
+        toastr()->success('Bạn xóa dữ liệu thành công!');
+        return redirect()->route('admin.topic.trash');
+    }
+
+    public function trash()
+    {
+        $list = Topic::where('status', '=', 0)->orderBy("created_at", "DESC")->get();
+        return view("backend.topic.trash", compact('list'));
+    }
+
+    public function delete(string $id)
+    {
+        $topic = Topic::find($id);
+        if ($topic == null) {
+            return redirect()->route('admin.topic.index');
+        }
+        $topic->updated_at = date('Y-m-d H:i:s');
+        $topic->updated_by = Auth::id() ?? 1;
+        $topic->status = 0; //form
+        $topic->save();
+        toastr()->success('Bạn xóa dữ liệu thành công!');
+        return redirect()->route('admin.topic.index');
+    }
+
+    public function restore(string $id)
+    {
+        $topic = Topic::find($id);
+        if ($topic == null) {
+            return redirect()->route('admin.topic.index');
+        }
+        $topic->updated_at = date('Y-m-d H:i:s');
+        $topic->updated_by = Auth::id() ?? 1;
+        $topic->status = 2; //form
+        $topic->save();
+        toastr()->success('Bạn khôi phục dữ liệu thành công!');
+        return redirect()->route('admin.topic.index');
+    }
+
+    public function status(string $id)
+    {
+        $topic = Topic::find($id);
+        if ($topic == null) {
+            return redirect()->route('admin.topic.index');
+        }
+        $topic->updated_at = date('Y-m-d H:i:s');
+        $topic->updated_by = Auth::id() ?? 1;
+        $topic->status = ($topic->status == 1) ? 2 : 1; //form
+        $topic->save();
+        toastr()->success('Bạn thay đổi trạng thái thành công!');
+        return redirect()->route('admin.topic.index');
     }
 }

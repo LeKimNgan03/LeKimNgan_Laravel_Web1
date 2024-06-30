@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="{{asset('assets/css/main.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
+    <script>
+        var $j = jQuery.noConflict();
+    </script>
     @yield('header')
 </head>
 
@@ -22,22 +24,32 @@
     <header style="background-color: #829460;">
         <nav class="navbar navbar-expand-lg navbar-dark">
             <a class="navbar-brand" href="#">
-                <img style="width: 150px;" src="./assets/img/logo.png" alt="Logo">
+                <img style="width: 120px;" src="./assets/img/logo.png" alt="Logo">
             </a>
+            <!-- Search Bar -->
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Tìm kiếm" aria-label="Tìm kiếm" aria-describedby="button-addon2">
                 <button class="btn btn-light" type="button" id="button-addon2">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
-            <!-- Search Bar -->
+            <!--  -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#"><i class="fa-solid fa-user"></i></a>
+                        <a class="nav-link text-white" href="{{route('site.cart.index')}}">
+                            <i class="fa-solid fa-cart-shopping" aria-hidden="true">
+                                @php
+                                $count = count(session('carts', []));
+                                @endphp
+                                <span id="showqty" class="position-absolute translate-middle">
+                                    ({{$count}})
+                                </span>
+                            </i>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                        <a class="nav-link text-white" href="#"><i class="fa-solid fa-user"></i></a>
                     </li>
                 </ul>
             </div>

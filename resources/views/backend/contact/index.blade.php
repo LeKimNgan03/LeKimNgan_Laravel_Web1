@@ -19,7 +19,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-12 text-right">
-                        <a href="" class="btn btn-sm btn-danger">
+                        <a href="{{route('admin.category.trash')}}" class="btn btn-sm btn-danger">
                             <i class="fa fa-trash" aria-hidden="true"></i> Thùng rác
                         </a>
                     </div>
@@ -27,7 +27,7 @@
             </div>
 
             <div class="card-body">
-                <table class="table table-bordered table-hover table-striped">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th class="text-center" style="width:30px">#</th>
@@ -35,29 +35,42 @@
                             <th>Điện thoại</th>
                             <th>Email</th>
                             <th>Tiêu đề</th>
+                            <th>Nội dung</th>
                             <th class="text-center" style="width:170px">Chức năng</th>
                             <th class="text-center" style="width:40px">ID</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($list as $row)
-                        <tr>
+                        <tr class="datarow">
                             <td><input type="checkbox"></td>
                             <td>{{$row->name}}</td>
                             <td>{{$row->phone}}</td>
                             <td>{{$row->email}}</td>
                             <td>{{$row->title}}</td>
+                            <td>{{$row->content}}</td>
                             <td>
-                                <a href="" class="btn btn-sm btn-success">
+                                @php
+                                $agrs = ['id' => $row->id];
+                                @endphp
+
+                                @if ($row->status == 1)
+                                <a href="{{route('admin.contact.status', $agrs)}}" class="btn btn-sm btn-success">
                                     <i class="fa fa-toggle-on" aria-hidden="true"></i>
                                 </a>
-                                <a href="{{route('admin.contact.show', ['id' => $row->id])}}" class="btn btn-sm btn-info">
+                                @else
+                                <a href="{{route('admin.contact.status', $agrs)}}" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-toggle-off" aria-hidden="true"></i>
+                                </a>
+                                @endif
+
+                                <a href="{{route('admin.contact.show', $agrs)}}" class="btn btn-sm btn-info">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
-                                <a href="{{route('admin.contact.edit', ['id' => $row->id])}}" class="btn btn-sm btn-primary">
+                                <a href="{{route('admin.contact.edit', $agrs)}}" class="btn btn-sm btn-primary">
                                     <i class="fa fa-edit" aria-hidden="true"></i>
                                 </a>
-                                <a href="{{route('admin.contact.trash')}}" class="btn btn-sm btn-danger">
+                                <a href="{{route('admin.contact.delete')}}" class="btn btn-sm btn-danger">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </a>
                             </td>
