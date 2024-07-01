@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Models\Order;
+use App\Models\Orderdetail;
+use App\Models\User;
 
 class OrderController extends Controller
 {
@@ -42,7 +44,12 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $list = Orderdetail::where('order.status', '!=', 0)
+            ->join('order', 'order.id', '=', 'orderdetail.order_id')
+            ->join('product', 'product.id', '=', 'orderdetail.product_id')
+            ->select('orderdetail.id', 'orderdetail.id', 'order.name as ordername', 'product.name as productname', 'product.price as productprice', 'product.qty as productqty', 'amount')
+            ->get();
+        return view("backend.orderdetail.index", compact("list"));
     }
 
     /**

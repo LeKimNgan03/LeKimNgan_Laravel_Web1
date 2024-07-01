@@ -54,7 +54,7 @@
             <div class="col-9">
                 <button class="btn btn-primary" type="submit">Cập nhật</button>
                 <button class="btn btn-danger" type="button">Hủy giỏ hàng</button>
-                <button class="btn btn-success" type="button">Thanh toán</button>
+                <a class="btn btn-success" href="{{route('site.cart.checkout')}}" type="button">Thanh toán</a>
             </div>
             <div class="col-3">
                 <strong>Tổng tiền: {{number_format($totalMoney)}}</strong>

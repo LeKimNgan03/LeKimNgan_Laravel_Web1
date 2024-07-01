@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\Orderdetail;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -75,39 +78,41 @@ class CartController extends Controller
         return redirect()->route('site.cart.index');
     }
 
-    // public function docheckout(Request $request)
-    // {
-    //     $user=Auth::user();
-    //     $carts = session('carts',[]);
-    //     if(count($carts)>0)
-    //     {
-    //     $order=new Order();
-    //     $order->user_id = $user->id;
-    //     $order->delivery_name=$request->name;
-    //     $order->delivery_gender=$user->gender;
-    //     $order->delivery_email=$request->email;
-    //     $order->delivery_phone=$request->phone;
-    //     $order->delivery_address=$request->address;
-    //     $order->note=$request->note;
-    //     $order->created_at=date('Y-m-d H:i:s');
-    //     $order->type='online';
-    //     $order->status=2;
-    //     if($order->save())
-    //     {
-    //         foreach($carts as $cart)
-    //         {
-    //             $orderdetail = new Orderdetail();
-    //             $orderdetail->order_id=$order->id;
-    //             $orderdetail->product_id=$cart['id'];
-    //             $orderdetail->price=$cart['price'];
-    //             $orderdetail->qty=$cart['qty'];
-    //             $orderdetail->discount=0;
-    //             $orderdetail->amount=$cart['price']*$cart['qty'];
-    //             $orderdetail->save();
-    //         }
-    //     }
-    //     session(['carts'=>[]]);
-    //     }
-    //     return view("frontend.checkout_message");
-    // }
+    public function checkout()
+    {
+        $list_cart = session('carts', []);
+        return view('frontend.checkout', compact('list_cart'));
+    }
+
+    public function docheckout(Request $request)
+    {
+        $user = Auth::user();
+        $carts = session('carts', []);
+        //
+        if (count($carts) > 0) {
+            $order = new Order();
+            $order->user_id = $user->id;
+            $order->name = $request->name;
+            $order->email = $request->email;
+            $order->phone = $request->phone;
+            $order->address = $request->address;
+            $order->note = $request->note;
+            $order->created_at = date('Y-m-d H:i:s');
+            $order->type = 'online';
+            $order->status = 1;
+            if ($order->save()) {
+                foreach ($carts as $cart) {
+                    $orderdetail = new Orderdetail();
+                    $orderdetail->order_id = $order->id;
+                    $orderdetail->product_id = $cart['id'];
+                    $orderdetail->price = $cart['price'];
+                    $orderdetail->qty = $cart['qty'];
+                    $orderdetail->amount = $cart['price'] * $cart['qty'];
+                    $orderdetail->save();
+                }
+            }
+            session(['carts' => []]);
+        }
+        return view('frontend.docheckout');
+    }
 }

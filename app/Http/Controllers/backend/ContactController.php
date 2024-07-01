@@ -23,7 +23,8 @@ class ContactController extends Controller
      */
     public function create()
     {
-        //
+        $list = Contact::where('status', '!=', 0)->orderBy('created_at', 'desc')->get();
+        return view('backend.contact.create', compact("list"));
     }
 
     /**
@@ -40,9 +41,8 @@ class ContactController extends Controller
         $contact->content = $request->content; //form
         $contact->reply_id = $request->reply_id; //form
         $contact->created_at = date('Y-m-d H:i:s');
-        $contact->updated_at = date('Y-m-d H:i:s');
-        $contact->updated_by = Auth::id() ?? 1;
-        $contact->status = $request->status; //form
+        $contact->created_by = Auth::id() ?? 1;
+        // $contact->status = $request->status; //form
         $contact->save(); //Lưu
         toastr()->success('Bạn đã gửi thông tin liên hệ thành công!');
         return redirect()->route('site.contact');

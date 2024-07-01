@@ -27,13 +27,13 @@ class BlogController extends Controller
         $list_post = Post::where('status', '=', 1)
             ->orderBy('created_at', 'desc')
             ->limit(2)->get();
-        return view("frontend.blog_detail", compact('post', 'post'));
+        return view("frontend.blog_detail", compact('post', 'list_post'));
     }
 
     public function topic($slug)
     {
         $topic = Topic::where([["slug", "=", $slug], ['status', '=', 1]])->first();
-        $list_post = Post::where([['status', '=', 1], ['slug', '=', $slug], ['topic_id', '=', $topic->id]])
+        $list_post = Post::where([['status', '=', 1], ['type', '=', 'post'], ['topic_id', '=', $topic->id]])
             ->orderBy('created_at', 'desc')
             ->paginate(4);
         return view("frontend.blog_topic", compact("list_post", 'topic'));

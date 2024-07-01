@@ -11,14 +11,14 @@ class LoginMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        // if (!Auth::check()) {
-        //     return redirect()->route('website.getlogin');
-        // } else {
-        //     $user = Auth::user();
-        //     if ($user->roles != "admin") {
-        //         return redirect()->route('site.home');
-        //     }
-        // }
+        if (!Auth::check()) {
+            return redirect()->route('website.getlogin');
+        } else {
+            $user = Auth::user();
+            if ($user->roles != "admin") {
+                return redirect()->route('site.home');
+            }
+        }
         return $next($request);
     }
 }

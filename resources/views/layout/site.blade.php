@@ -23,18 +23,24 @@
     <!-- Header -->
     <header style="background-color: #829460;">
         <nav class="navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{ route('site.home') }}">
                 <img style="width: 120px;" src="./assets/img/logo.png" alt="Logo">
             </a>
+
             <!-- Search Bar -->
-            <div class="input-group">
+            <!-- <div class="input-group d-flex justify-content-center w-50">
                 <input type="text" class="form-control" placeholder="Tìm kiếm" aria-label="Tìm kiếm" aria-describedby="button-addon2">
                 <button class="btn btn-light" type="button" id="button-addon2">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
-            </div>
+            </div> -->
+
             <!--  -->
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
+                <form action="{{ route('site.product.search') }}" class="col-12 col-lg-auto mb-3 mb-lg-0 " method="GET">
+                    <input type="text" name="query" class="form-control form-control-dark text-bg-white" placeholder="Tìm kiếm" aria-label="Search">
+                </form>
+
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{{route('site.cart.index')}}">
@@ -48,9 +54,28 @@
                             </i>
                         </a>
                     </li>
+
+                    <!-- <li class="nav-item">
+                        <a class="nav-link text-white" href="{{route('website.getlogin')}}"><i class="fa-solid fa-user"></i></a>
+                    </li> -->
+
+                    @if(Auth::check())
+                    @php
+                    $user = Auth::user();
+                    @endphp
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#"><i class="fa-solid fa-user"></i></a>
+                        <a class="nav-link text-white" href="{{route('website.logout')}}">
+                            {{$user->name}} <i class='fa-solid fa-right-from-bracket'></i>
+                        </a>
                     </li>
+                    @else
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{route('website.getlogin')}}">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
+                    </li>
+                    @endif
+
                 </ul>
             </div>
         </nav>
@@ -71,16 +96,7 @@
     <div class="mt-5" style="background-color: #829460;">
         <footer class="py-5 px-5">
             <div class="row">
-                <div class="col-6 col-md-2 mb-3">
-                    <h5 class="text-white">Section</h5>
-                    <ul class="nav flex-column">
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">Home</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">Features</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">Pricing</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">FAQs</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">About</a></li>
-                    </ul>
-                </div>
+                <x-footer-menu />
 
                 <div class="col-6 col-md-2 mb-3">
                     <h5 class="text-white">Section</h5>

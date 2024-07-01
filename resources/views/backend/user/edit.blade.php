@@ -1,5 +1,5 @@
 @extends('layout.admin')
-@section('title', 'Thành viên')
+@section('title', 'Người dùng')
 @section('content')
 
 <!-- CONTENT -->
@@ -9,7 +9,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Thêm thành viên</h1>
+                        <h1>Chỉnh sửa thành viên</h1>
                     </div>
                 </div>
             </div>

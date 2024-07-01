@@ -1,5 +1,5 @@
 @extends('layout.admin')
-@section('title', 'Người DÙng')
+@section('title', 'Người Dùng')
 @section('content')
 
 <!-- CONTENT -->

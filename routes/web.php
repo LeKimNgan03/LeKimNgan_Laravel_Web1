@@ -39,6 +39,7 @@ Route::get("san-pham", [SanphamController::class, "index"])->name('site.product'
 Route::get("danh-muc/{slug}", [SanphamController::class, "category"])->name('site.product.category');
 Route::get("thuong-hieu/{slug}", [SanphamController::class, "brand"])->name('site.product.brand');
 Route::get("chi-tiet-san-pham/{slug}", [SanphamController::class, "product_detail"])->name('site.product.detail');
+Route::get('search', [SanphamController::class, 'search'])->name('site.product.search');
 Route::get("lien-he", [LienheController::class, "index"])->name('site.contact');
 
 Route::get("bai-viet", [BlogController::class, "index"])->name('site.blog');
@@ -49,18 +50,18 @@ Route::get("gio-hang", [CartController::class, "index"])->name('site.cart.index'
 Route::get("cart/addcart", [CartController::class, "addcart"])->name('site.cart.addcart');
 Route::post("cart/update", [CartController::class, "update"])->name('site.cart.update');
 Route::get("cart/delete/{id}", [CartController::class, "delete"])->name('site.cart.delete');
-// Route::get('thanh-toan', [CartController::class, 'checkout'])->name('site.cart.checkout');
-// Route::post('thong-bao', [CartController::class, 'docheckout'])->name('site.cart.docheckout');
+Route::get('thanh-toan',[CartController::class, 'checkout'])->name('site.cart.checkout');
+Route::post('thong-bao',[CartController::class, 'docheckout'])->name('site.cart.docheckout');
 
 Route::get("dang-nhap", [AuthController::class, "getlogin"])->name('website.getlogin');
 Route::post("dang-nhap", [AuthController::class, "dologin"])->name('website.dologin');
 Route::get("dang-xuat", [AuthController::class, "logout"])->name('website.logout');
 
-Route::get("gioi-thieu", [AuthController::class, "intro"])->name('site.intro');
-Route::get("chinh-sach-mua-hang", [AuthController::class, "intro"])->name('site.intro');
-Route::get("chinh-sach-bao-hanh", [AuthController::class, "intro"])->name('site.intro');
-Route::get("chinh-sach-van-chuyen", [AuthController::class, "intro"])->name('site.intro');
-Route::get("chinh-sach-doi-tra", [AuthController::class, "intro"])->name('site.intro');
+Route::get("trang-don/gioi-thieu", [AuthController::class, "intro"])->name('site.intro');
+Route::get("trang-don/chinh-sach-mua-hang", [AuthController::class, "intro"])->name('site.intro');
+Route::get("trang-don/chinh-sach-bao-hanh", [AuthController::class, "intro"])->name('site.intro');
+Route::get("trang-don/chinh-sach-van-chuyen", [AuthController::class, "intro"])->name('site.intro');
+Route::get("trang-don/chinh-sach-doi-tra", [AuthController::class, "intro"])->name('site.intro');
 
 // Backend
 Route::prefix('admin')->middleware("middleauth")->group(function () {
@@ -156,15 +157,15 @@ Route::prefix('admin')->middleware("middleauth")->group(function () {
     // Order
     Route::prefix('order')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('admin.order.index');
-        // Route::get('trash', [OrderController::class, 'trash'])->name('admin.order.trash');
-        // Route::get('show/{id}', [OrderController::class, 'show'])->name('admin.order.show');
-        // Route::post('store', [OrderController::class, 'store'])->name('admin.order.store');
-        // Route::get('edit/{id}', [OrderController::class, 'edit'])->name('admin.order.edit');
-        // Route::put('update/{id}', [OrderController::class, 'update'])->name('admin.order.update');
-        // Route::get('delete/{id}', [OrderController::class, 'delete'])->name('admin.order.delete');
-        // Route::get('restore/{id}', [OrderController::class, 'restore'])->name('admin.order.restore');
-        // Route::delete('destroy/{id}', [OrderController::class, 'destroy'])->name('admin.order.destroy');
-        // Route::get('status', [OrderController::class, 'status'])->name('admin.order.status');
+        Route::get('trash', [OrderController::class, 'trash'])->name('admin.order.trash');
+        Route::get('show/{id}', [OrderController::class, 'show'])->name('admin.order.show');
+        Route::post('store', [OrderController::class, 'store'])->name('admin.order.store');
+        Route::get('edit/{id}', [OrderController::class, 'edit'])->name('admin.order.edit');
+        Route::put('update/{id}', [OrderController::class, 'update'])->name('admin.order.update');
+        Route::get('delete/{id}', [OrderController::class, 'delete'])->name('admin.order.delete');
+        Route::get('restore/{id}', [OrderController::class, 'restore'])->name('admin.order.restore');
+        Route::delete('destroy/{id}', [OrderController::class, 'destroy'])->name('admin.order.destroy');
+        Route::get('status', [OrderController::class, 'status'])->name('admin.order.status');
     });
 
     // Post

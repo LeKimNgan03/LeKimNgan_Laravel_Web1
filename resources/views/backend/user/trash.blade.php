@@ -50,15 +50,15 @@
                             <td class="">
                                 <div class="d-flex justify-content-between">
                                     @php
-                                    $agrs = ['id'=>$row -> id]
+                                    $agrs = ['id' => $row->id]
                                     @endphp
-                                    <a href="{{route('admin.user.show',$agrs)}}" class="btn btn-sm btn-info">
+                                    <a href="{{route('admin.user.show', $agrs)}}" class="btn btn-sm btn-info">
                                         <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
-                                    <a href="{{route('admin.user.restore',$agrs)}}" class="btn btn-sm btn-primary">
+                                    <a href="{{route('admin.user.restore', $agrs)}}" class="btn btn-sm btn-primary">
                                         <i class="fa-solid fa-rotate-left"></i>
                                     </a>
-                                    <form action="{{route('admin.user.destroy',$agrs)}}" method="post">
+                                    <form action="{{route('admin.user.destroy', $agrs)}}" method="post">
                                         @csrf
                                         @method('delete')
                                         <button class="btn btn-sm btn-danger" name="delete" type="submit">

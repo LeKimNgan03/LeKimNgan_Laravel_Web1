@@ -14,7 +14,7 @@ class ProductController extends Controller
     {
         $list_product = Product::where('status', '=', 1)
             ->orderBy('created_at', 'desc')
-            ->paginate(12);
+            ->paginate(8);
         return view("frontend.product", compact('list_product'));
     }
 
@@ -41,7 +41,7 @@ class ProductController extends Controller
         $list_product = Product::where('status', '=', 1)
             ->whereIn('category_id', $listcatid)
             ->orderBy('created_at', 'desc')
-            ->paginate(12);
+            ->paginate(8);
         return view("frontend.product_category", compact("list_product", 'row_category'));
     }
 
@@ -99,5 +99,20 @@ class ProductController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(4);
         return view("frontend.product_brand", compact("list_product", 'row_brand'));
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $products = Product::query()
+            ->where('name', 'like', "%{$query}%")
+            ->orWhere('description', 'like', "%{$query}%")
+            ->paginate(8);
+
+        return view('products.search', [
+            'products' => $products,
+            'query' => $query,
+        ]);
     }
 }

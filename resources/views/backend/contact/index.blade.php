@@ -31,11 +31,11 @@
                     <thead>
                         <tr>
                             <th class="text-center" style="width:30px">#</th>
-                            <th>Họ tên</th>
-                            <th>Điện thoại</th>
-                            <th>Email</th>
-                            <th>Tiêu đề</th>
-                            <th>Nội dung</th>
+                            <th class="text-center">Họ tên</th>
+                            <th class="text-center">Điện thoại</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Tiêu đề</th>
+                            <th class="text-center">Nội dung</th>
                             <th class="text-center" style="width:170px">Chức năng</th>
                             <th class="text-center" style="width:40px">ID</th>
                         </tr>
@@ -70,7 +70,7 @@
                                 <a href="{{route('admin.contact.edit', $agrs)}}" class="btn btn-sm btn-primary">
                                     <i class="fa fa-edit" aria-hidden="true"></i>
                                 </a>
-                                <a href="{{route('admin.contact.delete')}}" class="btn btn-sm btn-danger">
+                                <a href="{{route('admin.contact.delete', $agrs)}}" class="btn btn-sm btn-danger">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </a>
                             </td>
