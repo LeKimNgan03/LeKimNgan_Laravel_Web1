@@ -8,10 +8,10 @@
         <h3 class="pb-0 fw-bold text-uppercase">{{$post->title}}</h3>
         <hr />
         <div class="row">
-            <div class="col-md-6">
-                <img class="img-size" src="{{asset('images/post/' . $post->image)}}" style="width: 633x; height: 400px" alt="{{$post->image}}">
+            <div class="col-6">
+                <img class="img-fluid" src="{{asset('images/post/' . $post->image)}}">
             </div>
-            <div class="col-md-6">
+            <div class="col-6">
                 Mô tả:
                 <p>{{$post->detail}}</p>
                 Chi tiết bài viết:
